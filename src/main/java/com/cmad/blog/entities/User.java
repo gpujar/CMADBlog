@@ -1,16 +1,19 @@
 package com.cmad.blog.entities;
 
+import java.security.Principal;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Entity
-public class User {
+public class User implements Principal{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -38,8 +41,10 @@ public class User {
 	@Column
 	private String salt;
 	
-	public User(){
-		
+	@OneToOne(mappedBy = "user")
+	private Token token;
+
+	public User() {
 	}
 
 	public User(String firstName, String lastName, String email) {
@@ -91,10 +96,23 @@ public class User {
 	public void setSalt(String salt) {
 		this.salt = salt;
 	}
+
+	public String getName() {
+		return emailAddress;
+	}
+	
+	public Token getToken(){
+		return token;
+	}
+	
+	public void setToken(Token token){
+		this.token = token;
+	}
 	
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", lastName=" + lastName + ", firstName=" + firstName + ", emailAddress="
 				+ emailAddress + ", password=" + password + ", salt=" + salt + "]";
 	}
+	
 }

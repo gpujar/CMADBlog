@@ -18,7 +18,7 @@ public class BlogApp extends ResourceConfig {
 		        bind(TokenService.class).to(TokenService.class);
 		    }
         });
-        packages(true, "com.cmad.blog.dal, com.cmad.blog.service");
+        packages(true, "com.cmad.blog.dal, com.cmad.blog.service, com.cmad.blog.security");
         register(JacksonFeature.class);
     }
 }

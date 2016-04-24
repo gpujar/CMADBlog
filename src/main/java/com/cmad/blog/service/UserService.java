@@ -20,6 +20,7 @@ import javax.ws.rs.core.SecurityContext;
 
 import com.cmad.blog.dal.TokenDao;
 import com.cmad.blog.dal.UserDao;
+import com.cmad.blog.entities.Token;
 import com.cmad.blog.entities.User;
 import com.cmad.blog.util.EncryptionKit;
 
@@ -50,23 +51,30 @@ public class UserService {
 	@Produces({ MediaType.TEXT_HTML })
 	public Response signUp(@FormParam("FirstName") String firstName,@FormParam("LastName") String lastName,@FormParam("email") String email,
 			@FormParam("password") String password) {
-		
 		User user = new User(firstName,lastName,email);
 		resetPassword(user, password);
+		Token token = tokenService.createToken(user);
+		user.setToken(token);
 		UserDao.createUser(user);
-		String token = tokenService.createToken(user);
+		TokenDao.createToken(token);
+		System.out.println("Created user: " + user.toString());
 		return Response.status(201).entity("New user has been created" + "{\"token\":\"" + token + "\"}").build();
 	}
 
 	
-	@POST 
+	@POST
 	@Path("/login")
 	@Consumes({ MediaType.APPLICATION_FORM_URLENCODED })
 	@Produces({ MediaType.APPLICATION_JSON })
 	public Response login(@FormParam("email") String email,@FormParam("password") String password) {
 		User userGot = getUserByEmail(email);
+		System.out.println("Got user :"+userGot);
 		if (checkPassword(userGot, password)) {
-			String token = tokenService.createToken(userGot);
+			Token token = tokenService.createToken(userGot);
+			userGot.setToken(token);
+			UserDao.updateUser(userGot);
+			TokenDao.createToken(token);
+			System.out.println("Updated user: " + userGot.toString());
 			return Response.status(200).entity("{\"token\":\"" + token + "\"}").build();
 		} else {
 			return Response.status(404).entity("User not found").build();
@@ -74,15 +82,6 @@ public class UserService {
 	}
 	
 	
-	/**
-	 * @return User list
-	 */
-	@GET
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public List<User> getUserList() {
-		return UserDao.getUserList();
-	}
-
 	/**
 	 * Log in, check the user by email and password, if there is a user with
 	 * this password and email, create a token
@@ -97,8 +96,12 @@ public class UserService {
 		String email = user.getEmailAddress();
 		String password = user.getPassword();
 		User userGot = getUserByEmail(email);
+		System.out.println("Got user :"+userGot);
 		if (checkPassword(userGot, password)) {
-			String token = tokenService.createToken(userGot);
+			Token token = tokenService.createToken(userGot);
+			userGot.setToken(token);
+			UserDao.updateUser(userGot);
+			TokenDao.createToken(token);
 			return Response.status(200).entity("{\"token\":\"" + token + "\"}").build();
 		} else {
 			return Response.status(404).entity("User not found").build();
@@ -160,6 +163,7 @@ public class UserService {
 		String email = user.getEmailAddress();
 		String password = user.getPassword();
 		User userGot = getUserByEmail(email);
+		System.out.println("Got user :"+userGot);
 		if (userGot != null) {
 			resetPassword(userGot, password);
 			return Response.status(200).entity("Update password successfully").build();
@@ -196,7 +200,7 @@ public class UserService {
 	 * @return user
 	 */
 	public User getUserByEmail(String email) {
-		User user = UserDao.getUserByNameOrEmail("email", email);
+		User user = UserDao.getUserByEmail(email);
 		return user;
 	}
 
@@ -230,8 +234,29 @@ public class UserService {
 	@GET
 	@Path("testRest")
 	public Response getTest() {
-		String output = "Hollow world!";
+		String output = "Hello world!";
 		return Response.ok(output).build();
+	}
+	
+	
+	/**
+	 * @return User list
+	 */
+	@GET
+	@Path("testRest/user")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public List<User> getUserList() {
+		return UserDao.getUserList();
+	}
+
+	/**
+	 * @return Token list
+	 */
+	@GET
+	@Path("testRest/token")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public List<Token> getTokenList() {
+		return TokenDao.getUserTokenList();
 	}
 
 }

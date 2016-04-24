@@ -37,7 +37,6 @@ public class UserDao {
 	}
 
 	public void createUser(User user) {
-		System.out.println("Creating user: " + user.toString());
 		Session ses = HibernateUtil.currentSession();
 		try {
 			Transaction tx = ses.beginTransaction();
@@ -74,7 +73,16 @@ public class UserDao {
 		}
 	}
     
-	public User getUserByNameOrEmail(final String key, final String value){
-		return null;
+	public User getUserByEmail(final String emailAddress){
+		System.out.println("Getting  user by email Address: " + emailAddress);
+		Session ses = HibernateUtil.currentSession();
+		try {
+			Criteria crit = ses.createCriteria(User.class);
+			crit.add(Restrictions.eq("emailAddress",emailAddress));
+			User u = (User) crit.uniqueResult();
+			return u;
+		} finally {
+			HibernateUtil.closeSession();
+		}
 	}
 }
