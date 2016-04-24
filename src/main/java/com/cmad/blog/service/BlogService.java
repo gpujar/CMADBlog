@@ -37,9 +37,11 @@ public class BlogService {
 	@Produces({ MediaType.TEXT_HTML })
 	public Response addPost(Blog blogPost, @Context SecurityContext sc) {
 		Post post = new Post(blogPost.getTitle(), blogPost.getContent());
-		postDao.createPost(post);
 		Long userId = Long.valueOf(((User) sc.getUserPrincipal()).getId());
 		User user = UserDao.getUser(userId);
+		post.setUser(user);
+		postDao.createPost(post);
+		// Now update the user's  blog collection.
 		user.getPosts().add(post);
 		UserDao.updateUser(user);
 		return Response.status(201).entity("Blog Post has been created").build();
@@ -63,10 +65,11 @@ public class BlogService {
 	 * @return Response with status code and message in json format
 	 */
 	@GET
-	@Path("/search")
+	@Path("/search/{searchString}")
 	@Consumes({ MediaType.APPLICATION_JSON })
 	@Produces({ MediaType.APPLICATION_JSON })
-	public List<Post> getPosts(@PathParam("keyword") String searchString) {
+	public List<Post> getPosts(@PathParam("searchString") String searchString) {
+		System.out.println("BlogService.getPosts(searchString)  "+searchString);
 		return postDao.getPost(searchString);
 	}
 

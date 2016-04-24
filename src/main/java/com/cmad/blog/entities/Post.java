@@ -8,7 +8,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
@@ -34,10 +33,13 @@ public class Post {
 	@NotNull
 	protected Date createdOn = new Date();
 
-	@ManyToOne(optional = true, fetch = FetchType.LAZY)
+	@ManyToOne(optional = true, fetch = FetchType.EAGER)
 	// This side is really used for DDL generation, e.g. the NOT NULL option)
 	protected User user;
 
+	public Post(){
+	}
+	
 	public Post(final String title, final String content) {
 		this.title = title;
 		this.content = content;
@@ -72,7 +74,7 @@ public class Post {
 		return user;
 	}
 
-	public void setUserId(User user) {
+	public void setUser(User user) {
 		this.user = user;
 	}
 

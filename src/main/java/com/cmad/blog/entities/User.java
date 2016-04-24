@@ -48,7 +48,7 @@ public class User implements Principal{
 	private String salt;
 	
 	
-	@OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
 	@JsonIgnore
 	protected Set<Post> posts= new HashSet<Post>();
 

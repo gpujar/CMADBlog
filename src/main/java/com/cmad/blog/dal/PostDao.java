@@ -39,8 +39,7 @@ public class PostDao {
 		Session ses = HibernateUtil.currentSession();
 		try {
 			Criteria crit = ses.createCriteria(Post.class);
-			crit.add(Restrictions.ilike("title", searchString + "%"));
-			crit.add(Restrictions.ilike("title", "%" + " " + searchString + "%"));
+			crit.add(Restrictions.ilike("title", "%" + searchString + "%"));
 			return crit.list();
 		} finally {
 			HibernateUtil.closeSession();

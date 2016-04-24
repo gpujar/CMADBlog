@@ -1,3 +1,4 @@
+/*
 $(document).ready(function() {
       var lock = new Auth0Lock(
       // All these properties are set in auth0-variables.js
@@ -7,9 +8,9 @@ $(document).ready(function() {
 
     var userProfile;
 
-    $('.btn-login').click(function(e) {
+    $('.form-signin').click(function(e) {
       e.preventDefault();
-      lock.show({ authParams: { scope: 'openid' } });	
+      lock.show({ authParams: { scope: 'openid' } });
     });
     var hash = lock.parseHash(window.location.hash);
 
@@ -60,4 +61,43 @@ $(document).ready(function() {
     });
 
 
+});
+ */
+
+$(document).ready(function() {
+
+	$("#login").submit(function(e) {
+		var postData = $(this).serializeArray();
+	/*	$.each(postData, function(i, field) {
+			alert(field.name + ":" + field.value + " ");
+		}); */
+		alert("postData  " + postData);
+		$.ajax({
+			url : 'http://localhost:8090/Blog/rest/user/login',
+			contentType : 'application/x-www-form-urlencoded',
+			type : 'POST',
+			data : postData, // JSON.stringify(postData),
+			success : function(data, textStatus, jqXHR) {
+				// data: return data from server
+				//alert('done');
+				//console.log(data);
+				//sessionStorage.setItem("token", "Some Value")
+				var responce = JSON.stringify(data);
+				alert(responce.token);
+				session.setAttribute("token", responce.token);
+				var url = "http://localhost:8090/Blog/blog_list.html";
+				$(location).attr('href', url);
+
+			},
+			error : function(jqXHR, textStatus, errorThrown) {
+				console.log(jqXHR.responseText);
+			}
+		});
+		
+		/*var url = "http://localhost:8090/Blog/blog_list.html";
+		$(location).attr('href', url); */
+		// STOP default action
+		e.preventDefault();
+		// e.unbind(); // unbind. to stop multiple form submit.
+	})
 });

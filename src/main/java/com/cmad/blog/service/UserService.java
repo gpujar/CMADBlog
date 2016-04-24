@@ -61,7 +61,7 @@ public class UserService {
 		TokenDao.createToken(token);
 		
 		System.out.println("Created user: " + user.toString());
-		return Response.status(201).entity("New user has been created" + "{\"token\":\"" + token.getToken() + "\"}").build();
+		return Response.status(201).entity("{\"token\":\"" + token.getToken() + "\"}").build();
 	}
 
 	
