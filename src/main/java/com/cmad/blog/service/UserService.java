@@ -49,14 +49,17 @@ public class UserService {
 	@POST
 	@Consumes({ MediaType.APPLICATION_FORM_URLENCODED })
 	@Produces({ MediaType.TEXT_HTML })
-	public Response signUp(@FormParam("FirstName") String firstName,@FormParam("LastName") String lastName,@FormParam("email") String email,
+	public Response signUp(@FormParam("firstName") String firstName,@FormParam("lastName") String lastName,@FormParam("email") String email,
 			@FormParam("password") String password) {
 		User user = new User(firstName,lastName,email);
 		resetPassword(user, password);
-		Token token = tokenService.createToken(user);
-		user.setToken(token);
 		UserDao.createUser(user);
+		//create the token and save to db.
+		Token token = tokenService.createToken(user);
+		
+		token.setUser(user);		
 		TokenDao.createToken(token);
+		
 		System.out.println("Created user: " + user.toString());
 		return Response.status(201).entity("New user has been created" + "{\"token\":\"" + token + "\"}").build();
 	}
@@ -71,9 +74,9 @@ public class UserService {
 		System.out.println("Got user :"+userGot);
 		if (checkPassword(userGot, password)) {
 			Token token = tokenService.createToken(userGot);
-			userGot.setToken(token);
-			UserDao.updateUser(userGot);
+			token.setUser(userGot);
 			TokenDao.createToken(token);
+			
 			System.out.println("Updated user: " + userGot.toString());
 			return Response.status(200).entity("{\"token\":\"" + token + "\"}").build();
 		} else {
@@ -99,9 +102,10 @@ public class UserService {
 		System.out.println("Got user :"+userGot);
 		if (checkPassword(userGot, password)) {
 			Token token = tokenService.createToken(userGot);
-			userGot.setToken(token);
+			
 			UserDao.updateUser(userGot);
 			TokenDao.createToken(token);
+			token.setUser(userGot);
 			return Response.status(200).entity("{\"token\":\"" + token + "\"}").build();
 		} else {
 			return Response.status(404).entity("User not found").build();
@@ -117,7 +121,7 @@ public class UserService {
 	@Path("/logout")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Response logout(@Context SecurityContext sc) {
-		Long userId = Long.valueOf(sc.getUserPrincipal().getName());
+		Long userId = Long.valueOf(((User)sc.getUserPrincipal()).getId());
 		boolean  flag = TokenDao.deleteTokenByUserId(userId);
 		if (flag) {
 			return Response.status(200).entity("Deleted the user successfully").build();

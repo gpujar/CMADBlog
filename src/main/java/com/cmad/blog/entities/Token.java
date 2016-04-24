@@ -2,34 +2,28 @@ package com.cmad.blog.entities;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
-public class Token implements Serializable{
+public class Token implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
 	@NotNull
-	@Column
+	@Column(unique = true)
 	private String token;
 
-	@OneToOne(optional = false,fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	//@JoinColumn(name = "USER_ID", nullable = false, unique = true)
-	@PrimaryKeyJoinColumn // Create FK constraint on PK column
-    @JsonIgnore
+	@OneToOne
+	@JoinColumn(name = "USER_ID")
 	private User user;
 
 	public Token() {

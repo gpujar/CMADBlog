@@ -1,12 +1,17 @@
 package com.cmad.blog.entities;
 
 import java.security.Principal;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -20,29 +25,33 @@ public class User implements Principal{
 	private Long id;
 
 	@NotNull
-	@Column(nullable = false, length = 40)
-	private String lastName;
-
-	@NotNull
-	@Column(nullable = false, length = 40)
+	@Column(nullable = false, length = 60)
 	private String firstName;
 
 	@NotNull
+	@Column(nullable = false, length = 60)
+	private String lastName;
+	
+	@NotNull
 	@Pattern(regexp = ".+@.+\\.[a-z]+")
-	@Column
+	@Column(unique = true)
 	private String emailAddress;
 
 	@NotNull
 	@Column
-	@Size(min = 6, max = 255, message = "password is required, min is 6 and max 255 characters.")
+	@Size(min = 6, max = 50, message = "password is required, min is 6 and max 50 characters.")
 	private String password;
 
 	@NotNull
 	@Column
 	private String salt;
 	
-	@OneToOne(mappedBy = "user")
-	private Token token;
+	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    @org.hibernate.annotations.OnDelete(
+        action = org.hibernate.annotations.OnDeleteAction.CASCADE
+    )
+    protected Set<BlogPost> posts= new HashSet<BlogPost>();
 
 	public User() {
 	}
@@ -100,14 +109,7 @@ public class User implements Principal{
 	public String getName() {
 		return emailAddress;
 	}
-	
-	public Token getToken(){
-		return token;
-	}
-	
-	public void setToken(Token token){
-		this.token = token;
-	}
+
 	
 	@Override
 	public String toString() {

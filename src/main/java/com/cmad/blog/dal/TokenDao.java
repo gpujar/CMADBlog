@@ -2,8 +2,6 @@ package com.cmad.blog.dal;
 
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -34,21 +32,30 @@ public class TokenDao {
 		}
 	}
 
-	@Transactional
 	public User getUserByTokenString(final String token) {
 		System.out.println("TokenDao.Getting user by token string :" + token);
 		Session ses = HibernateUtil.currentSession();
+		// Query query = ses.createQuery("SELECT t FROM Token t JOIN FETCH
+		// t.user WHERE t.token = :token");
+		// query.setParameter("token", token);
+		// Token sessionToken= (Token)query.uniqueResult();
+		// System.out.println("TokenDao.getUserByTokenString() "+sessionToken);
+		// try {
+		// return sessionToken.getUser();
+		// } finally {
+		// HibernateUtil.closeSession();
+		// }
 		try {
 			Criteria crit = ses.createCriteria(Token.class);
 			crit.add(Restrictions.eq("token", token));
-			Token sessionToken = (Token) crit.list();
+			Token sessionToken = (Token) crit.uniqueResult();
+			System.out.println("TokenDao.getUserByTokenString() " + sessionToken);
 			return sessionToken.getUser();
 		} finally {
 			HibernateUtil.closeSession();
 		}
 	}
 
-	@Transactional
 	public Long getUserIdByToken(Long token) {
 		Session ses = HibernateUtil.currentSession();
 		try {

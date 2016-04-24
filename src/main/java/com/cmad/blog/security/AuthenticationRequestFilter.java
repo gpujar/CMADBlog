@@ -25,20 +25,23 @@ public class AuthenticationRequestFilter implements ContainerRequestFilter {
 		// Get the request url path, if it is login or signup request, ignore
 		// them
 		String path = requestContext.getUriInfo().getPath();
-		if (path.equals("/user/login") || path.equals("/user/signup") || path.equals("/user/testRest/user")
-				|| path.equals("/user/testRest/token")) {
+		if (path.equals("/user/login") || path.equals("/user/signup") || path.equals("/user/testRest")
+				|| path.equals("/user/testRest/user") || path.equals("/user/testRest/token")) {
 			return;
 		}
 		// Get the token from the request header
-		String token = requestContext.getHeaderString("Authorization");
+		String encodedString = requestContext.getHeaderString("Authorization");
 		// Get the user by this token
-		User user = StringUtils.isEmpty(token) ? null : tokenDao.getUserByTokenString(token);
-
-		// Set the user to the securityContext for the request if the user is
-		// not null
-		if (user == null) {
+		if( StringUtils.isEmpty(encodedString)){
 			requestContext.setSecurityContext(new AuthenticationSecurityContext());
-		} else {
+		}else{
+			// Set the user to the securityContext for the request if the user is
+			// not null
+			
+			System.out.println("AuthenticationRequestFilter. Basic Encoded String:"+encodedString);
+			String token = StringUtils.getDecodedBase64(encodedString);
+			System.out.println("AuthenticationRequestFilter. Token :"+ token);
+			User user = tokenDao.getUserByTokenString(token);
 			requestContext.setSecurityContext(new AuthenticationSecurityContext(user));
 			System.out.println("AuthenticationRequestFilter " + user);
 		}
