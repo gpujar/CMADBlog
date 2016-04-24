@@ -22,6 +22,6 @@
 		<property name="hibernate.connection.isolation">2</property>
 		<mapping class="com.cmad.blog.entities.User" />
 		<mapping class="com.cmad.blog.entities.Token" />
-		<mapping class="com.cmad.blog.entities.BlogPost" />
+		<mapping class="com.cmad.blog.entities.Post" />
 	</session-factory>
 </hibernate-configuration>

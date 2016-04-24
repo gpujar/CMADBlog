@@ -53,7 +53,7 @@ public class UserService {
 			@FormParam("password") String password) {
 		User user = new User(firstName,lastName,email);
 		resetPassword(user, password);
-		UserDao.createUser(user);
+		UserDao.saveUser(user);
 		//create the token and save to db.
 		Token token = tokenService.createToken(user);
 		
@@ -61,7 +61,7 @@ public class UserService {
 		TokenDao.createToken(token);
 		
 		System.out.println("Created user: " + user.toString());
-		return Response.status(201).entity("New user has been created" + "{\"token\":\"" + token + "\"}").build();
+		return Response.status(201).entity("New user has been created" + "{\"token\":\"" + token.getToken() + "\"}").build();
 	}
 
 	
@@ -78,7 +78,7 @@ public class UserService {
 			TokenDao.createToken(token);
 			
 			System.out.println("Updated user: " + userGot.toString());
-			return Response.status(200).entity("{\"token\":\"" + token + "\"}").build();
+			return Response.status(200).entity("{\"token\":\"" + token.getToken() + "\"}").build();
 		} else {
 			return Response.status(404).entity("User not found").build();
 		}
@@ -106,7 +106,7 @@ public class UserService {
 			UserDao.updateUser(userGot);
 			TokenDao.createToken(token);
 			token.setUser(userGot);
-			return Response.status(200).entity("{\"token\":\"" + token + "\"}").build();
+			return Response.status(200).entity("{\"token\":\"" + token.getToken() + "\"}").build();
 		} else {
 			return Response.status(404).entity("User not found").build();
 		}
@@ -124,7 +124,7 @@ public class UserService {
 		Long userId = Long.valueOf(((User)sc.getUserPrincipal()).getId());
 		boolean  flag = TokenDao.deleteTokenByUserId(userId);
 		if (flag) {
-			return Response.status(200).entity("Deleted the user successfully").build();
+			return Response.status(200).entity("Logged out the user successfully").build();
 		} else {
 			return Response.status(404).entity("This user can not be deleted").build();
 		}

@@ -36,7 +36,7 @@ public class UserDao {
 		}
 	}
 
-	public void createUser(User user) {
+	public void saveUser(User user) {
 		Session ses = HibernateUtil.currentSession();
 		try {
 			Transaction tx = ses.beginTransaction();

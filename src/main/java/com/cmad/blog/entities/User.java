@@ -12,10 +12,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class User implements Principal{
@@ -48,10 +49,8 @@ public class User implements Principal{
 	
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
-    @org.hibernate.annotations.OnDelete(
-        action = org.hibernate.annotations.OnDeleteAction.CASCADE
-    )
-    protected Set<BlogPost> posts= new HashSet<BlogPost>();
+	@JsonIgnore
+	protected Set<Post> posts= new HashSet<Post>();
 
 	public User() {
 	}
@@ -111,6 +110,14 @@ public class User implements Principal{
 	}
 
 	
+	public Set<Post> getPosts() {
+		return posts;
+	}
+
+	public void setPosts(Set<Post> posts) {
+		this.posts = posts;
+	}
+
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", lastName=" + lastName + ", firstName=" + firstName + ", emailAddress="
