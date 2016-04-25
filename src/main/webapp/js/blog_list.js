@@ -1,5 +1,5 @@
 $(document).ready(function() {
-
+	//alert(" sessionStorage.clickcount "+ sessionStorage.clickcount);
 	$("#logout").click(function(e) {
 		alert("Test");
 		//var postData = $(this).serializeArray();
@@ -7,19 +7,27 @@ $(document).ready(function() {
 			alert(field.name + ":" + field.value + " ");
 		}); */
 		//alert("postData  " + postData);
+		var token;
+		if(typeof(Storage) !== "undefined") {
+		      //  if (sessionStorage.clickcount) {
+		            //sessionStorage.token = json.token;
+			token = sessionStorage.getItem('token');
+		      //  }
+			}
 		$.ajax({
 			url : 'http://localhost:8090/Blog/rest/user/logout',
-			/*headers: {
-		        "token":"first value"
-		    },*/
-		    beforeSend: function (request)
+			headers: {
+		        //"token":'Basic ' + "7b174366-abd2-4f45-97ea-456a87b55775"
+				"token":'Basic ' + token
+		    },
+		   /* beforeSend: function (request)
             {
 		    	alert("Test 2");
                 //request.setRequestHeader("Authority", authorizationToken);
-		    	request.setRequestHeader('Authorization', 'Basic ' + session.getAttribute("token"));
+		    	request.setRequestHeader('Authorization', 'Basic ' + "7b174366-abd2-4f45-97ea-456a87b55775");
                 alert(session.getAttribute("token"));
                 
-            },
+            },*/
 			type : 'POST',
 			//data : postData, // JSON.stringify(postData),
 			success : function(data, textStatus, jqXHR) {

@@ -58,6 +58,8 @@ $(document).ready(function(){
         }
     }); */
 	
+        
+        
 	
 $("#ajaxform").submit(function(e)
 {
@@ -87,17 +89,22 @@ success:function(data, textStatus, jqXHR)
 	//var responce = JSON.stringify(data);
 	var json = JSON.parse(data);
 	alert(json["token"]);
-	session.setAttribute("token", responce.token);
-	alert(session.getAttribute("token"));
+	if(typeof(Storage) !== "undefined") {
+	      //  if (sessionStorage.clickcount) {
+	            sessionStorage.token = json.token;
+	      //  }
+		}
+	//session.setAttribute("token", responce.token);
+	alert(sessionStorage.token);
 	var url = "http://localhost:8090/Blog/blog_list.html";
 	$(location).attr('href', url);
 },
 error: function(jqXHR, textStatus, errorThrown) 
 {
 	console.log(jqXHR.responseText);
-}});
+}
+});
  // STOP default action
-
 e.preventDefault();
 // e.unbind(); // unbind. to stop multiple form submit.
 })
