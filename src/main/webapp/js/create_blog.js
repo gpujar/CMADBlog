@@ -20,7 +20,7 @@ $(document).ready(function() {
 		      //  }
 			}
 		$.ajax({
-	        url: "http://localhost:8090/Blog/rest/blog",
+	        url: "http://localhost:8080/Blog/rest/blog",
 	        method: "POST",
 	        data: {"title":titleValue,"content":contentValue},
 	      //  dataType: 'application/json',
@@ -30,7 +30,7 @@ $(document).ready(function() {
 	        },
 	         success: function(result){
 	              alert(result);
-	             var url = "http://localhost:8090/Blog/blog_list.html";
+	             var url = "http://localhost:8080/Blog/blog_list.html";
 	      		$(location).attr('href', url);
 	         },
 	         fail : function error(){

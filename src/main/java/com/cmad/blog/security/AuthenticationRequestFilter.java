@@ -25,6 +25,7 @@ public class AuthenticationRequestFilter implements ContainerRequestFilter {
 		// Get the request url path, if it is login or signup request, ignore
 		// them
 		String path = requestContext.getUriInfo().getPath();
+		System.out.println("AuthenticationRequestFilter. Request Path:"+path);
 		if (path.equals("/user/login") || path.equals("/user/signup") || path.equals("/user/testRest")
 				|| path.equals("/user/testRest/user") || path.equals("/user/testRest/token")) {
 			return;

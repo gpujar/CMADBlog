@@ -15,7 +15,7 @@ $(document).ready(function() {
 		      //  }
 			}
 		$.ajax({
-			url : 'http://localhost:8090/Blog/rest/user/logout',
+			url : 'http://localhost:8080/Blog/rest/user/logout',
 			headers: {
 		        //"token":'Basic ' + "7b174366-abd2-4f45-97ea-456a87b55775"
 				"token":'Basic ' + token
@@ -34,7 +34,7 @@ $(document).ready(function() {
 				// data: return data from server
 				//alert('done');
 				//console.log(data);
-				var url = "http://localhost:8090/Blog/index.html";
+				var url = "http://localhost:8080/Blog/index.html";
 				$(location).attr('href', url);
 			},
 			error : function(jqXHR, textStatus, errorThrown) {

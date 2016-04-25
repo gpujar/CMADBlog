@@ -8,7 +8,7 @@ $(document).ready(function() {
 		}); */
 		alert("postData  " + postData);
 		$.ajax({
-			url : 'http://localhost:8090/Blog/rest/user/login',
+			url : 'http://localhost:8080/Blog/rest/user/login',
 			contentType : 'application/x-www-form-urlencoded',
 			type : 'POST',
 			data : postData, // JSON.stringify(postData),
@@ -25,7 +25,7 @@ $(document).ready(function() {
 					}
 				//session.setAttribute("token", responce.token);
 				//alert(sessionStorage.token);
-				var url = "http://localhost:8090/Blog/blog_list.html";
+				var url = "http://localhost:8080/Blog/blog_list.html";
 				$(location).attr('href', url);
 			},
 			error : function(jqXHR, textStatus, errorThrown) {
