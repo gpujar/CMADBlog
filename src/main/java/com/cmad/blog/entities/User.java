@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -47,6 +48,9 @@ public class User implements Principal{
 	@Column
 	private String salt;
 	
+	@OneToOne(mappedBy = "user", cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
+	@JsonIgnore
+	private Token token;
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
 	@JsonIgnore
@@ -81,8 +85,8 @@ public class User implements Principal{
 		this.firstName = firstName;
 	}
 
-	public String getLastName() {
-		return lastName;
+	public Token getToken() {
+		return token;
 	}
 
 	public void setLastName(String lastName) {
@@ -118,6 +122,14 @@ public class User implements Principal{
 		this.posts = posts;
 	}
 
+	public void setToken(Token token) {
+		this.token = token;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+	
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", lastName=" + lastName + ", firstName=" + firstName + ", emailAddress="

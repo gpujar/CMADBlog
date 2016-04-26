@@ -4,12 +4,14 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Token implements Serializable {
@@ -22,8 +24,8 @@ public class Token implements Serializable {
 	@Column(unique = true)
 	private String token;
 
-	@OneToOne
-	@JoinColumn(name = "USER_ID")
+	@OneToOne(optional = true, fetch = FetchType.EAGER)
+	@JsonIgnore
 	private User user;
 
 	public Token() {

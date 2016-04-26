@@ -59,7 +59,8 @@ public class UserService {
 		
 		token.setUser(user);		
 		TokenDao.createToken(token);
-		
+		// Setting the token in user also.
+		user.setToken(token);
 		System.out.println("Created user: " + user.toString());
 		return Response.status(201).entity("{\"token\":\"" + token.getToken() + "\"}").build();
 	}
@@ -76,7 +77,8 @@ public class UserService {
 			Token token = tokenService.createToken(userGot);
 			token.setUser(userGot);
 			TokenDao.createToken(token);
-			
+			// Setting the token in user also.
+			userGot.setToken(token);
 			System.out.println("Updated user: " + userGot.toString());
 			return Response.status(200).entity("{\"token\":\"" + token.getToken() + "\"}").build();
 		} else {

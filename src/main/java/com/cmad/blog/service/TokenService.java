@@ -2,12 +2,9 @@ package com.cmad.blog.service;
 
 import java.util.UUID;
 
-import javax.inject.Inject;
-
 import org.jvnet.hk2.annotations.Contract;
 import org.jvnet.hk2.annotations.Service;
 
-import com.cmad.blog.dal.TokenDao;
 import com.cmad.blog.entities.Token;
 import com.cmad.blog.entities.User;
 
