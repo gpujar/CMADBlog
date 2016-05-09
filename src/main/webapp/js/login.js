@@ -17,11 +17,14 @@ $(document).ready(function() {
 				//var json = JSON.parse(data);
 				//alert(json["token"]);
 				//alert(data.token);
+				alert(data.token);
 				if(typeof(Storage) !== "undefined") {
 				      //  if (sessionStorage.clickcount) {
 				            //sessionStorage.token = json.token;
 					sessionStorage.setItem('token', data.token);
 				      //  }
+					}else{
+						alert("Storage doesn't supports......");
 					}
 				//session.setAttribute("token", responce.token);
 				//alert(sessionStorage.token);

@@ -22,9 +22,12 @@ $(document).ready(function() {
 		$.ajax({
 	        url: "http://localhost:8080/Blog/rest/blog",
 	        method: "POST",
+	        headers: {		     
+				'Authorization': 'Basic ' + token
+		    },
 	        data: {"title":titleValue,"content":contentValue},
 	      //  dataType: 'application/json',
-	        contentType: "application/json",
+	        contentType: 'application/x-www-form-urlencoded',
 	        beforeSend: function (xhr) {
 	            xhr.setRequestHeader ("Authorization", "Basic " + token);
 	        },

@@ -44,10 +44,17 @@ public class Token implements Serializable {
 	}
 
 	public String getToken() {
+		System.out.println("Token.getToken()  token  "+token);
 		return token;
 	}
 
 	public void setToken(String token) {
+		System.out.println(" Set token  token  ::"+token);
+		try {
+			throw new Exception();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		this.token = token;
 	}
 

@@ -71,6 +71,11 @@ public class UserService {
 	@Consumes({ MediaType.APPLICATION_FORM_URLENCODED })
 	@Produces({ MediaType.APPLICATION_JSON })
 	public Response login(@FormParam("email") String email,@FormParam("password") String password) {
+		try {
+			throw new Exception();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		User userGot = getUserByEmail(email);
 		System.out.println("Got user :"+userGot);
 		if (checkPassword(userGot, password)) {
@@ -121,8 +126,9 @@ public class UserService {
 	 */
 	@POST
 	@Path("/logout")
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Produces({ MediaType.APPLICATION_JSON })
 	public Response logout(@Context SecurityContext sc) {
+		System.out.println("UserService.logout()............   ");
 		Long userId = Long.valueOf(((User)sc.getUserPrincipal()).getId());
 		boolean  flag = TokenDao.deleteTokenByUserId(userId);
 		if (flag) {
@@ -132,6 +138,7 @@ public class UserService {
 		}
 	}
 
+	//	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	/**
 	 * Get user by user id
 	 * 

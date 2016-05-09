@@ -11,23 +11,26 @@ $(document).ready(function() {
 		if(typeof(Storage) !== "undefined") {
 		      //  if (sessionStorage.clickcount) {
 		            //sessionStorage.token = json.token;
+			alert("storage supports");
 			token = sessionStorage.getItem('token');
 		      //  }
 			}
+		alert(token);
 		$.ajax({
 			url : 'http://localhost:8080/Blog/rest/user/logout',
 			headers: {
 		        //"token":'Basic ' + "7b174366-abd2-4f45-97ea-456a87b55775"
-				"token":'Basic ' + token
+				//"token":'Basic ' + token
+				'Authorization': 'Basic ' + token
 		    },
-		   /* beforeSend: function (request)
+		    beforeSend: function (request)
             {
 		    	alert("Test 2");
                 //request.setRequestHeader("Authority", authorizationToken);
-		    	request.setRequestHeader('Authorization', 'Basic ' + "7b174366-abd2-4f45-97ea-456a87b55775");
+		    	request.setRequestHeader('Authorization', 'Basic ' + token);
                 alert(session.getAttribute("token"));
                 
-            },*/
+            },
 			type : 'POST',
 			//data : postData, // JSON.stringify(postData),
 			success : function(data, textStatus, jqXHR) {
@@ -49,3 +52,5 @@ $(document).ready(function() {
 		// e.unbind(); // unbind. to stop multiple form submit.
 	}) 
 });
+
+

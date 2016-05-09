@@ -34,16 +34,19 @@ public class BlogService {
 	 */
 	@POST
 	@Consumes({ MediaType.APPLICATION_JSON })
-	@Produces({ MediaType.TEXT_HTML })
+	@Produces({ MediaType.APPLICATION_JSON })
 	public Response addPost(Blog blogPost, @Context SecurityContext sc) {
+		System.out.println("BlogService.addPost()..........  ");
 		Post post = new Post(blogPost.getTitle(), blogPost.getContent());
 		Long userId = Long.valueOf(((User) sc.getUserPrincipal()).getId());
 		User user = UserDao.getUser(userId);
+		System.out.println("  user  "+user);
 		post.setUser(user);
 		postDao.createPost(post);
 		// Now update the user's  blog collection.
 		user.getPosts().add(post);
 		UserDao.updateUser(user);
+		System.out.println("BlogService.addPost()  Returning value ");
 		return Response.status(201).entity("Blog Post has been created").build();
 	}
 
