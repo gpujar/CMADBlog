@@ -2,44 +2,47 @@
 
 $(document).ready(function() {
 
-	$("#postblog").submit(function(e) {		
+	$("#postblog").submit(function(e) {
+		alert("Test this .........  ");
+		//var postData = $(this).serializeArray();
+	/*	$.each(postData, function(i, field) {
+			alert(field.name + ":" + field.value + " ");
+		}); */
+		//alert("postData  " + postData);
 		var titleValue = $("#title").val();
 		var contentValue = $("#content").val();
+		//alert(sessionStorage.setItem('token', data.token));
 		if(typeof(Storage) !== "undefined") {
+		      //  if (sessionStorage.clickcount) {
+		            //sessionStorage.token = json.token;
 			token = sessionStorage.getItem('token');
-		}
-		var dataToSend = {title:titleValue,content:contentValue};
-	//	dataToSend = dataToSend.serializeArray();
+			alert(token);
+		      //  }
+			}
 		$.ajax({
 	        url: "http://localhost:8080/Blog/rest/blog",
 	        method: "POST",
-	        contentType: 'application/x-www-form-urlencoded',
-	       /* headers: {		     
+	        headers: {		     
 				'Authorization': 'Basic ' + token
-		    },*/
-	        data: dataToSend,
-	        dataType: 'application/json',
+		    },
+	        data: {"title":titleValue,"content":contentValue},
+	      //  dataType: 'application/json',
+	        contentType: 'application/x-www-form-urlencoded',
 	        beforeSend: function (xhr) {
 	            xhr.setRequestHeader ("Authorization", "Basic " + token);
 	        },
-	        statusCode: {
-	            404: function () {
-	            	alert("Error........");
-	            },
-	            200: function (data) {
-	            	alert("Success..........  ");
-	            	var url = "http://localhost:8080/Blog/blog_list.html";
-					$(location).attr('href', url);
-	            }},
-	        success : function(data, textStatus, jqXHR) {
-				var url = "http://localhost:8080/Blog/index.html";
-				$(location).attr('href', url);
-			},
+	         success: function(result){
+	              alert(result);
+	             var url = "http://localhost:8080/Blog/blog_list.html";
+	      		$(location).attr('href', url);
+	         },
 	         fail : function error(){
-	        	 alert("Failure.......... ");
 	             console.log('Error');
 	         }
 	    });
+		/*var url = "http://localhost:8090/Blog/blog_list.html";
+		$(location).attr('href', url); */
+		// STOP default action
 		e.preventDefault();
 		// e.unbind(); // unbind. to stop multiple form submit.
 	})

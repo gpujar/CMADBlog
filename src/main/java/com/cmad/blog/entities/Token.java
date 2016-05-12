@@ -49,7 +49,12 @@ public class Token implements Serializable {
 	}
 
 	public void setToken(String token) {
-		System.out.println(" Set token  token  ::"+token);		
+		System.out.println(" Set token  token  ::"+token);
+		try {
+			throw new Exception();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		this.token = token;
 	}
 
