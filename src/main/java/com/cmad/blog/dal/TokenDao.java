@@ -47,6 +47,7 @@ public class TokenDao {
 		// }
 		try {
 			Criteria crit = ses.createCriteria(Token.class);
+			System.out.println(" crit  "+crit);
 			crit.add(Restrictions.eq("token", token));
 			Token sessionToken = (Token) crit.uniqueResult();
 			System.out.println("TokenDao.getUserByTokenString() " + sessionToken);

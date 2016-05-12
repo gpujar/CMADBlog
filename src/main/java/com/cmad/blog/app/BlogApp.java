@@ -21,6 +21,6 @@ public class BlogApp extends ResourceConfig {
 		    }
         });
         packages(true, "com.cmad.blog.dal, com.cmad.blog.service, com.cmad.blog.security");
-        register(JacksonFeature.class);
+        register(JacksonFeature.class);   
     }
 }

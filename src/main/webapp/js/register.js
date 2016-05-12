@@ -55,6 +55,7 @@ success:function(data, textStatus, jqXHR)
 	var url = "http://localhost:8080/Blog/blog_list.html";
 	$(location).attr('href', url);
 },
+
 error: function(jqXHR, textStatus, errorThrown) 
 {
 	console.log(jqXHR.responseText);

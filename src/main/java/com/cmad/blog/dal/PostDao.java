@@ -7,12 +7,18 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.jvnet.hk2.annotations.Contract;
+import org.jvnet.hk2.annotations.Service;
 
 import com.cmad.blog.entities.Post;
 
+
+@Contract
+@Service
 public class PostDao {
 
 	public List<Post> getPostList() {
+		System.out.println("PostDao.getPostList().......   ");
 		Session ses = HibernateUtil.currentSession();
 		try {
 			Criteria crit = ses.createCriteria(Post.class);
@@ -36,10 +42,15 @@ public class PostDao {
 	}
 
 	public List<Post> getPost(String searchString) {
+		System.out.println("PostDao.getPost()  searchString  "+searchString);
 		Session ses = HibernateUtil.currentSession();
+		searchString =  "%"+searchString+"%";
+		System.out.println("  searchString  "+searchString);
 		try {
 			Criteria crit = ses.createCriteria(Post.class);
-			crit.add(Restrictions.ilike("title", "%" + searchString + "%"));
+			crit.add(Restrictions.ilike("title",searchString));
+			//crit.addOrder(Order.desc("createdOn"));
+			System.out.println("  crit.list()  "+crit.list());
 			return crit.list();
 		} finally {
 			HibernateUtil.closeSession();

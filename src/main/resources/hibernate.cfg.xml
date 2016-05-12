@@ -6,7 +6,7 @@
 		<property name="hibernate.connection.driver_class">
 			com.mysql.jdbc.Driver
 		</property>
-		<!-- Assume user_info_datat is the database name -->
+		<!-- Assume BLOG is the database name -->
 		<property name="hibernate.connection.url">
 			jdbc:mysql://localhost/BLOG
 		</property>
