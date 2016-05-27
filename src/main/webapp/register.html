@@ -1,52 +1,24 @@
-<!DOCTYPE html>
-<html >
-  <head>
-    <meta charset="UTF-8">
-    <title>CMAD Blog: Registration Form</title>
-    <link rel="stylesheet" href="css/style_login.css">
-    <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
-    <link href="css/clean-blog.min.css" rel="stylesheet">
-    <script src="js/jquery.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>	 
-	 <script src="js/register.js" ></script>	 
-  </head>
-
-  <body>
+  
+  <div ng-controller='registerController'>
      <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
-        <div class="container-fluid">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header page-scroll">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-               <!--  <a class="navbar-brand" href="index.html">Start Bootstrap</a>   -->
-            </div>
-
-            <!-- Collect the nav links, forms, and other content for toggling -->
+       <!--   <div class="container-fluid">
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a href="index.html">Home</a>
+                        <a href="#login">Home</a>
                     </li>
                     <li>
-                        <a href="about.html">About</a>
+                        <a href="#about">About</a>
                     </li>
                     <li>
-                        <a href="blog_list.html">Blog list</a>
+                        <a href="#blogList">Blog list</a>
                     </li> 
                     <li>
-                        <a href="contact.html">Contact</a>
+                        <a href="#contact">Contact</a>
                     </li>		
                 </ul>
             </div>
-            <!-- /.navbar-collapse -->
-        </div>
-        <!-- /.container -->
+        </div>  -->
     </nav>	
     <!-- Page Header -->
     <!-- Set your background image for this header on the line below. -->
@@ -67,80 +39,52 @@
     <div class="modal-dialog">
         		<div class="modal-content">        			
         			<div class="modal-header">
-        				<button type="button" class="close" data-dismiss="modal">
-        					<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-        				</button>
         				<h3 class="modal-title" id="modal-register-label">Sign up now</h3>
-        				<p>Fill in the form below to get instant access:</p>
+        				<p>Fill in the form below to get instant access :</p>
         			</div>
         			
         			<div class="modal-body">
         				
-	                    <form role="form" id="ajaxform"  class="registration-form" method="post" action="http://localhost:8090/Blog/rest/user" >
+	                    <form role="form" id="ajaxform"  class="registration-form"  ng-submit='register()'>
 	                    	<div class="form-group">
 	                    		<label class="sr-only" for="form-first-name">First name</label>
-	                        	<input type="text" name="firstName" placeholder="First name..." class="form-first-name form-control" id="form-first-name">
+	                        	<input type="text" name="firstName" placeholder="First name..." class="form-first-name form-control" id="form-first-name" autofocus="true" ng-model="newuser.firstName">
 	                        </div>
 	                        <div class="form-group">
 	                        	<label class="sr-only" for="form-last-name">Last name</label>
-	                        	<input type="text" name="lastName" placeholder="Last name..." class="form-last-name form-control" id="form-last-name">
+	                        	<input type="text" name="lastName" placeholder="Last name..." class="form-last-name form-control" id="form-last-name" ng-model="newuser.lastName">
 	                        </div>
 	                        <div class="form-group">
 	                        	<label class="sr-only" for="form-email">Email</label>
-	                        	<input type="text" name="email" placeholder="Email..." class="form-email form-control" id="form-email">
+	                        	<input type="text" name="email" placeholder="Email..." class="form-email form-control" id="form-email" ng-model="newuser.email">
 	                        </div>
 							<div class="form-group">
 	                        	<label class="sr-only" for="form-password">Password</label>
-	                        	<input type="password" name="password" placeholder="Password..." class="form-email form-control" id="form-password">
+	                        	<input type="password" name="password" placeholder="Password..." class="form-email form-control" id="form-password" ng-model="newuser.password">
 	                        </div>	                        
 	                      <!--   <div class="form-group">
 	                        	<label class="sr-only" for="form-about-yourself">About yourself</label>
 	                        	<textarea name="form-about-yourself" placeholder="About yourself..." 
 	                        		class="form-about-yourself form-control" id="form-about-yourself"></textarea>
 	                        </div>   -->
-	                        <button type="submit" class="btn" id="register">Sign me up!</button>
+	                        <button type="submit" class="btn" id="register" >Sign me up!</button>
 	                    </form>
 	                    
         			</div>
         			
         		</div>
         	</div>
-    
           <!-- Footer -->
     <footer>
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     <ul class="list-inline text-center">
-                        <!--  <li>
-                            <a href="#">
-                                <span class="fa-stack fa-lg">
-                                    <i class="fa fa-circle fa-stack-2x"></i>
-                                    <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
-                                </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <span class="fa-stack fa-lg">
-                                    <i class="fa fa-circle fa-stack-2x"></i>
-                                    <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
-                                </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <span class="fa-stack fa-lg">
-                                    <i class="fa fa-circle fa-stack-2x"></i>
-                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                                </span>
-                            </a>
-                        </li> -->
                     </ul>
                     <p class="copyright text-muted">Copyright &copy; cmadblog.com 2016</p>
                 </div>
             </div>
         </div>
     </footer>
-  </body>
-</html>
+  </div>
+<!-- </html>    -->

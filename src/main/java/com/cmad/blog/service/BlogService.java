@@ -2,7 +2,6 @@ package com.cmad.blog.service;
 
 
 import java.util.List;
-
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -34,22 +33,23 @@ public class BlogService {
 	 */
 	@POST
 	@Consumes({ MediaType.APPLICATION_FORM_URLENCODED })
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response addPost(@FormParam("title") String title, @FormParam("content") String body, @Context SecurityContext sc) {  //Post blogPost,
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response addPost(@FormParam("title") String title, @FormParam("content") String body, @FormParam("synopsis") String synopsis, @Context SecurityContext sc) {  //Post blogPost,
 		System.out.println("BlogService.addPost().......... body  "+body);
 		System.out.println(" title  "+title);
-		Post post = new Post(title, body);
-		Long userId = Long.valueOf(((User) sc.getUserPrincipal()).getId());
-		User user = UserDao.getUser(userId);
+		
+		User user = ((User)sc.getUserPrincipal());
+		
 		System.out.println("  user  "+user);
-		post.setUser(user);
+		Post post = new Post(title, synopsis, body, user.getFirstName());
+		//post.setUser(user);
 		postDao.createPost(post);
 		// Now update the user's  blog collection.
 		user.getPosts().add(post);
 		UserDao.updateUser(user);
 		System.out.println("BlogService.addPost()  Returning value ");
 		//return Response.status(200).entity("Blog Post has been created").build();
-		return Response.status(200).entity("Logged out the user successfully").build();
+		return Response.status(200).entity("Blog posted successfully").build();
 	}
 
 	/**
@@ -79,4 +79,15 @@ public class BlogService {
 		return postDao.getPost(searchString);
 	}
 
+	@GET
+	@Path("/{header}")
+	@Consumes({ MediaType.APPLICATION_JSON })
+	@Produces({ MediaType.APPLICATION_JSON })
+	public Post getPost(@PathParam("header") String header){
+		System.out.println("BlogService.getPost()  hrader  "+header);
+		Post post = postDao.getSinglePost(header);
+		System.out.println(" title "+post.getTitle());
+		System.out.println(" content  "+post.getContent());
+		return post;
+	}
 }

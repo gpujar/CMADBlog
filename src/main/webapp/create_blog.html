@@ -1,33 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>CMAD Blog Create a Blog</title>
 
-<!-- Bootstrap Core CSS -->
-<link href="css/bootstrap.min.css" rel="stylesheet">
-
-<!-- Custom CSS -->
-<link href="css/clean-blog.min.css" rel="stylesheet">
-
-<!-- Custom Fonts -->
-<link
-	href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css"
-	rel="stylesheet" type="text/css">
-<link
-	href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic'
-	rel='stylesheet' type='text/css'>
-<link
-	href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
-	rel='stylesheet' type='text/css'>
-<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
-<script src="./js/create_blog.js"></script>
-
-<meta name="format-detection" content="telephone=no">
-</head>
-<body class="nomast">
+<div ng-controller='blogPostController'  class="nomast" >
 	<div id="header_wrap">
-
 		<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
 			<div class="container-fluid">
 				<!-- Brand and toggle get grouped for better mobile display -->
@@ -40,15 +13,14 @@
 					</button>
 					<!--  <a class="navbar-brand" href="index.html">Start Bootstrap</a>  -->
 				</div>
-
 				<!-- Collect the nav links, forms, and other content for toggling -->
 				<div class="collapse navbar-collapse"
 					id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav navbar-right">
-						<li><a href="index.html">Home</a></li>
-						<li><a href="blog_list.html">Blog List</a></li>
-						<li><a href="about.html">About</a></li>
-						<li><a href="contact.html">Contact</a></li>
+						<li><a href="#blogList">Blog List</a></li>
+						<li><a href="#about">About</a></li>
+						<li><a href="#contact">Contact</a></li>
+						<li><a href="" ng-click='logout()'>Logout</a></li>
 					</ul>
 				</div>
 				<!-- /.navbar-collapse -->
@@ -73,28 +45,34 @@
 		</header>
 		<div id="container_wrap">
 			<div id="container" class="accessible_hubtool">
-				<form id="postblog" > <!-- action="http://hubpages.com/hubtool/accessible" method="post" -->
-					<p>
+				<form id="postblog" ng-submit='blogPost()'> <!-- action="http://hubpages.com/hubtool/accessible" method="post" -->
+					<p style="padding-left: 6%">
 						<label for="title">Title</label>
 						<br> 
-						<input type="text"
-							tabindex="1" value="Blog Title" size="60" maxlength="100"
-							name="title" id="title" style="max-width: 80%">
-					</p>					
-					<p>
-						<label for="hubContent">Type the text of your Blog:</label>
+						<input type="text" class="form-control"
+							tabindex="1" value="Blog Title" size="60" maxlength="100" 
+							name="title" id="title" style="max-width: 80% " required="true" ng-model='blog.title'>
+					</p>
+					<p style="padding-left: 6%">
+						<label for="shortSyn">About your blog in few words :</label>
+						<br> 
+						<input type="text" class="form-control"
+							tabindex="1" value="Blog Title" size="60" maxlength="200" 
+							name="shortSyn" id="shortSyn" style="max-width: 80% " required="true" ng-model='blog.shortSyn'>
+					</p>
+					<p style="padding-left: 6%">
+						<label for="hubContent">Type the text of your blog :</label>
 						<br>
-						<textarea rows="15" cols="50" tabindex="7" name="content"
-							id="content" style="width: 80%"></textarea>
+						<textarea class="form-control" rows="15" cols="50" tabindex="7" name="content"
+							id="content" style="width: 80%" required="true" ng-model='blog.content'></textarea>
 					</p>
 					<input type="hidden" name="a" value="4849296">
-					<p>
+					<p style="padding-left: 6%">
 						<input type="submit" name="submited"
-							value="Publish" tabindex="9">
+							value="Publish" tabindex="9" style="background-color: #4CAF50">
 					</p>
 				</form>
-			</div>								
-
+			</div>
 		</div>
 		<!-- Footer -->
 		<footer>
@@ -132,7 +110,9 @@
 					</div>
 				</div>
 			</div>
-		</footer>		
-		
-</body>
-</html>
+		</footer>
+	</div>	
+</div>
+
+
+<!--  </html>  -->

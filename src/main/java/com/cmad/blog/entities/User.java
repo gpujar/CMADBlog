@@ -4,56 +4,43 @@ import java.security.Principal;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.bson.types.ObjectId;
+import org.mongodb.morphia.annotations.Embedded;
+import org.mongodb.morphia.annotations.Entity;
+import org.mongodb.morphia.annotations.Id;
 
 @Entity
 public class User implements Principal{
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+	private ObjectId id;
 
 	@NotNull
-	@Column(nullable = false, length = 60)
 	private String firstName;
 
 	@NotNull
-	@Column(nullable = false, length = 60)
 	private String lastName;
 	
 	@NotNull
 	@Pattern(regexp = ".+@.+\\.[a-z]+")
-	@Column(unique = true)
 	private String emailAddress;
 
 	@NotNull
-	@Column
 	@Size(min = 6, max = 50, message = "password is required, min is 6 and max 50 characters.")
 	private String password;
 
 	@NotNull
-	@Column
 	private String salt;
 	
-	@OneToOne(mappedBy = "user", cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
-	@JsonIgnore
 	private Token token;
 	
-	@OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
-	@JsonIgnore
+	@Embedded
 	protected Set<Post> posts= new HashSet<Post>();
 
 	public User() {
@@ -65,7 +52,7 @@ public class User implements Principal{
 		this.emailAddress = email;
 	}
 
-	public Long getId() {
+	public ObjectId getId() {
 		return id;
 	}
 

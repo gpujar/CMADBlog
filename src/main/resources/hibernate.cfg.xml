@@ -20,8 +20,8 @@
 		<property name="hibernate.hbm2ddl.auto">update</property>
 		<!-- <property name="hibernate.hbm2ddl.auto">create-drop</property> -->
 		<property name="hibernate.connection.isolation">2</property>
-		<mapping class="com.cmad.blog.entities.User" />
+		<!--  <mapping class="com.cmad.blog.entities.User" />
 		<mapping class="com.cmad.blog.entities.Token" />
-		<mapping class="com.cmad.blog.entities.Post" />
+		<mapping class="com.cmad.blog.entities.Post" />  -->
 	</session-factory>
 </hibernate-configuration>

@@ -1,48 +1,40 @@
 package com.cmad.blog.entities;
 
 import java.util.Date;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
+import org.bson.types.ObjectId;
+import org.mongodb.morphia.annotations.Embedded;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-
-@Entity
+@Embedded
 public class Post {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long Id;
+	private ObjectId Id;
 
 	@NotNull
-	@Column(nullable = false, length = 255)
 	private String title;
 
 	@NotNull
-	@JsonInclude(Include.NON_NULL)
-	@Column(length = 65535, columnDefinition = "Text")
+	private String synopsis;	
+
+	@NotNull
 	private String content;
+
+	@NotNull
+	private String firstName;	
 
 	@NotNull
 	protected Date createdOn = new Date();
 
-	@ManyToOne(optional = true, fetch = FetchType.EAGER)
 	// This side is really used for DDL generation, e.g. the NOT NULL option)
-	protected User user;
-
+	//protected User user;
 	public Post(){
 	}
 	
-	public Post(final String title, final String content) {
+	public Post(final String title, final String synopsis, final String content, final String firstName) {
 		this.title = title;
+		this.synopsis = synopsis;
 		this.content = content;
+		this.firstName = firstName;
 		this.createdOn = new Date();
 	}
 
@@ -57,6 +49,14 @@ public class Post {
 	public String getContent() {
 		return content;
 	}
+	
+	public String getSynopsis() {
+		return synopsis;
+	}
+
+	public void setSynopsis(String synopsis) {
+		this.synopsis = synopsis;
+	}
 
 	public void setContent(String content) {
 		this.content = content;
@@ -70,16 +70,24 @@ public class Post {
 		this.createdOn = createdOn;
 	}
 
-	public User getUser() {
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+	
+	/*public User getUser() {
 		return user;
 	}
 
 	public void setUser(User user) {
 		this.user = user;
-	}
+	}*/
 
 	@Override
 	public String toString() {
-		return "BlogPost [Id=" + Id + ", title=" + title + ", createdOn=" + createdOn + "]";
+		return "BlogPost [Id=" + Id + ", synopsis=" + synopsis + ",title=" + title + ", createdOn=" + createdOn + "]";
 	}
 }

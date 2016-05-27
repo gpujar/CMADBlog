@@ -2,7 +2,6 @@ package com.cmad.blog.service;
 
 import java.util.List;
 import java.util.UUID;
-
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -17,13 +16,13 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
-
+import org.bson.types.ObjectId;
 import com.cmad.blog.dal.TokenDao;
 import com.cmad.blog.dal.UserDao;
 import com.cmad.blog.entities.Token;
 import com.cmad.blog.entities.User;
 import com.cmad.blog.util.EncryptionKit;
-
+import com.cmad.blog.util.MailUtil;
 /**
  * Service class that handles REST request about token, which is for user
  * authentication check.
@@ -56,8 +55,7 @@ public class UserService {
 		UserDao.saveUser(user);
 		//create the token and save to db.
 		Token token = tokenService.createToken(user);
-		
-		token.setUser(user);		
+		token.setUser(user);	
 		TokenDao.createToken(token);
 		// Setting the token in user also.
 		user.setToken(token);
@@ -71,23 +69,21 @@ public class UserService {
 	@Consumes({ MediaType.APPLICATION_FORM_URLENCODED })
 	@Produces({ MediaType.APPLICATION_JSON })
 	public Response login(@FormParam("email") String email,@FormParam("password") String password) {
-		try {
-			throw new Exception();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		User userGot = getUserByEmail(email);
 		System.out.println("Got user :"+userGot);
-		if (checkPassword(userGot, password)) {
+		if (userGot != null && checkPassword(userGot, password)) {
+			System.out.println(" Password is correct ");
 			Token token = tokenService.createToken(userGot);
 			token.setUser(userGot);
 			TokenDao.createToken(token);
 			// Setting the token in user also.
 			userGot.setToken(token);
 			System.out.println("Updated user: " + userGot.toString());
+			/*MailUtil util = new MailUtil(); //.mailSend();
+			util.mailSend();*/
 			return Response.status(200).entity("{\"token\":\"" + token.getToken() + "\"}").build();
 		} else {
-			return Response.status(404).entity("User not found").build();
+			return Response.status(404).entity("{\"token\":\"" + "Test" + "\"}").build();
 		}
 	}
 	
@@ -109,7 +105,6 @@ public class UserService {
 		System.out.println("Got user :"+userGot);
 		if (checkPassword(userGot, password)) {
 			Token token = tokenService.createToken(userGot);
-			
 			UserDao.updateUser(userGot);
 			TokenDao.createToken(token);
 			token.setUser(userGot);
@@ -126,10 +121,11 @@ public class UserService {
 	 */
 	@POST
 	@Path("/logout")
-	@Produces({ MediaType.APPLICATION_JSON })
+	@Produces({ MediaType.TEXT_PLAIN })
 	public Response logout(@Context SecurityContext sc) {
 		System.out.println("UserService.logout()............   ");
-		Long userId = Long.valueOf(((User)sc.getUserPrincipal()).getId());
+		User userId = ((User)sc.getUserPrincipal());
+		System.out.println("UserService.logout()  userId  "+userId);
 		boolean  flag = TokenDao.deleteTokenByUserId(userId);
 		if (flag) {
 			return Response.status(200).entity("Logged out the user successfully").build();
@@ -138,7 +134,6 @@ public class UserService {
 		}
 	}
 
-	//	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	/**
 	 * Get user by user id
 	 * 
@@ -147,8 +142,8 @@ public class UserService {
 	 */
 	@GET
 	@Path("{id}")
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public Response getUserById(@PathParam("id") Long id) {
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN })
+	public Response getUserById(@PathParam("id") ObjectId id) {
 		User user = UserDao.getUser(id);
 		if (user == null) {
 			return Response.status(404).entity("User with this id not found").build();
@@ -156,9 +151,6 @@ public class UserService {
 			return Response.status(200).entity(user).build();
 		}
 	}
-
-	/********************************* UPDATE PASSWORD***********************************/
-
 
 	/**
 	 * Update user password
@@ -171,7 +163,7 @@ public class UserService {
 	@PUT
 	@Path("updatePassword")
 	@Consumes({ MediaType.APPLICATION_JSON })
-	@Produces({ MediaType.APPLICATION_JSON })
+	@Produces({ MediaType.TEXT_PLAIN })
 	public Response updatePassword(User user) {
 		String email = user.getEmailAddress();
 		String password = user.getPassword();
@@ -196,7 +188,7 @@ public class UserService {
 	@DELETE
 	@Path("id")
 	@Consumes({ MediaType.APPLICATION_JSON })
-	@Produces({ MediaType.APPLICATION_JSON })
+	@Produces({ MediaType.TEXT_PLAIN })
 	public Response deleteUserByid(@PathParam("id") Long id) {
 		boolean deleted = UserDao.deleteUser(id);
 		if (deleted) {

@@ -78,15 +78,7 @@
 		$scope.newuser ='';
 		};
 	});
-	
-	
-	module.controller('Mymessages', function(){
-	var  cacheMessage = "";
-	//	cache.Data
-		return cacheMessage;
-	});
-	
-	
+		
 	module.service('messages', function() {
 		var cacheMessage="";
 		this.setText = function(inputText) {
@@ -97,12 +89,13 @@
 		        }
 		});
 	
-	module.controller('blogPostController', function($scope, $http, $log, $location){
+	module.controller('blogPostController', function($scope, $http, $log, $location, messages){
 		
 		$scope.blogPost = function(){	
 			var dataToSend = $.param({
 				"title": $scope.blog.title,
-				"content": $scope.blog.content
+				"content": $scope.blog.content,
+				"synopsis": $scope.blog.shortSyn
 				});
 			var token = "Basic " + sessionStorage.getItem('token');
 			$http({
@@ -136,7 +129,6 @@
 	
 	
 	module.controller('blogListController', function($scope, $http, $log, $location, messages){
-		var searchString = messages.getText();
 		
 		$http({
 			"url" : 'http://localhost:8080/Blog/rest/blog',		
@@ -147,8 +139,11 @@
 				console.log(jqXHR.responseText);
 			});
 		
-		$scope.search = function(){
-			var text = $scope.searchText; 
+		$scope.search = function(){	
+			var text = $scope.searchText;
+			if(text == null || text == ""){
+				return false;
+			}
 			var url = 'http://localhost:8080/Blog/rest/blog/search/'+text;
 			
 			$http({

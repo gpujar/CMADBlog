@@ -1,15 +1,9 @@
 package com.cmad.blog.dal;
 
 import java.util.List;
-
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
 import org.jvnet.hk2.annotations.Contract;
 import org.jvnet.hk2.annotations.Service;
-
+import org.mongodb.morphia.Datastore;
 import com.cmad.blog.entities.Post;
 
 
@@ -18,53 +12,27 @@ import com.cmad.blog.entities.Post;
 public class PostDao {
 
 	public List<Post> getPostList() {
-		System.out.println("PostDao.getPostList().......   ");
-		Session ses = HibernateUtil.currentSession();
-		try {
-			Criteria crit = ses.createCriteria(Post.class);
-			crit.addOrder(Order.desc("createdOn"));
-			return crit.list();
-		} finally {
-			HibernateUtil.closeSession();
-		}
-	}
-
-	public Post getPost(Long id) {
-		Session ses = HibernateUtil.currentSession();
-		try {
-			Criteria crit = ses.createCriteria(Post.class);
-			crit.add(Restrictions.idEq(id));
-			Post u = (Post) crit.uniqueResult();
-			return u;
-		} finally {
-			HibernateUtil.closeSession();
-		}
+		System.out.println("PostDao.getPostList().......   ");		
+		Datastore dataStore = ServicesFactory.getMongoDB();
+		return dataStore.createQuery(Post.class).order("-createdOn").asList();
 	}
 
 	public List<Post> getPost(String searchString) {
 		System.out.println("PostDao.getPost()  searchString  "+searchString);
-		Session ses = HibernateUtil.currentSession();
-		searchString =  "%"+searchString+"%";
 		System.out.println("  searchString  "+searchString);
-		try {
-			Criteria crit = ses.createCriteria(Post.class);
-			crit.add(Restrictions.ilike("title",searchString));
-			//crit.addOrder(Order.desc("createdOn"));
-			System.out.println("  crit.list()  "+crit.list());
-			return crit.list();
-		} finally {
-			HibernateUtil.closeSession();
-		}
+		Datastore dataStore = ServicesFactory.getMongoDB();
+		return dataStore.createQuery(Post.class).field("title").contains(searchString).asList(); //.find(Post.class, "title =", searchString).asList();
 	}
 
+	public Post getSinglePost(String header){
+		Post post = null;
+		Datastore dataStore = ServicesFactory.getMongoDB();
+		post = dataStore.createQuery(Post.class).field("title").equal(header).get(); 
+		return post;
+	}
+	
 	public void createPost(Post post) {
-		Session ses = HibernateUtil.currentSession();
-		try {
-			Transaction tx = ses.beginTransaction();
-			ses.save(post);
-			tx.commit();
-		} finally {
-			HibernateUtil.closeSession();
-		}
+		Datastore dataStore = ServicesFactory.getMongoDB();
+		dataStore.save(post);
 	}
 }

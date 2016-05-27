@@ -1,7 +1,6 @@
 <div ng-controller="loginController as ctrl">
 	 <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
-        <div class="container-fluid">
-            <!-- Brand and toggle get grouped for better mobile display -->
+      <!--    <div class="container-fluid">
             <div class="navbar-header page-scroll">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                     <span class="sr-only">Toggle navigation</span>
@@ -9,24 +8,14 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-               <!--  <a class="navbar-brand" href="index.html">Start Bootstrap</a>  -->
             </div>
-
-            <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
-                   <!--   <li>
-                        <a href="#about">About</a>
-                    </li>
-                    <li>
-                        <a href="#contact">Contact</a>
-                    </li>	-->
                 </ul>
             </div>
-            <!-- /.navbar-collapse -->
-        </div>
-        <!-- /.container -->
-    </nav>	
+        </div>  -->
+    </nav>
+    
     <!-- Page Header -->
     <!-- Set your background image for this header on the line below. -->
     <header class="intro-header" style="background-image: url('img/home-bg.jpg')">
@@ -46,13 +35,15 @@
     <div class="wrapper">
     <form class="form-signin" id="login">       
       <h2 class="form-signin-heading">Please login</h2>
-      <input type="text" class="form-control" name="email" placeholder="Email Address" required="" placeholder="Enter a valid email address" autofocus=""  ng-model="user.username"/>
-      <input type="password" class="form-control" name="password" placeholder="Password" required="" ng-model="user.password"/>      
+      <input type="email" class="form-control" name="email" placeholder="Email Address" required="true" placeholder="Enter a valid email address" autofocus="true"  ng-model="user.username"/>
+      <input type="password" class="form-control" name="password" placeholder="Password" required="true" type="email" ng-model="user.password"/>
+      
      <!--  <label class="checkbox">
         <input type="checkbox" value="remember-me" id="rememberMe" name="rememberMe"> Remember me
       </label>   -->
-      <button class="btn btn-lg btn-primary btn-block" type="submit" id="login" ng-click = "login(user)">Login</button>
+      <button class="btn btn-md btn-primary btn-block" type="submit" id="login" ng-click = "login(user)">Login</button>
 		<a href="#register">   Sign Up</a>
+		
     </form>
   </div>
       

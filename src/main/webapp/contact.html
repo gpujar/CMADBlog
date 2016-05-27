@@ -1,29 +1,22 @@
+<!--   
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-
     <title>CMAD Blog - Contact</title>
-
-    <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom CSS -->
     <link href="css/clean-blog.min.css" rel="stylesheet">
-
-    <!-- Custom Fonts -->
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
 </head>
+-->
 
-<body>
+<body ng-controller='contactController'>
 
     <!-- Navigation -->
     <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
@@ -41,18 +34,18 @@
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav navbar-right">
+                <ul class="nav navbar-nav navbar-right">                   
                     <li>
-                        <a href="index.html">Home</a>
+                        <a href="#about">About</a>
+                    </li>
+                     <li>
+                        <a href="#postBlog">Post Blog</a>
                     </li>
                     <li>
-                        <a href="about.html">About</a>
+                        <a href="#blogList">Blog List</a>
                     </li>
-                    <li>
-                        <a href="blog_list.html">Blog List</a>
-                    </li>
-                    <li>
-                        <a href="contact.html">Contact</a>
+                     <li>
+                        <a href=""  ng-click='logout()'>Log out</a>
                     </li>
                 </ul>
             </div>
@@ -141,13 +134,5 @@
             </div>
         </div>
     </footer>
-    <!-- jQuery -->
-    <script src="js/jquery.js"></script>
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
-    <!-- Custom Theme JavaScript -->
-    <script src="js/clean-blog.min.js"></script>
 
 </body>
-
-</html>
