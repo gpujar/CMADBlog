@@ -1,8 +1,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>BloggingPlatform</groupId>
-	<artifactId>Blog</artifactId>
+	<groupId>CMADBlog</groupId>
+	<artifactId>CMADBlog</artifactId>
 	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Blogging Platform Webapp</name>
@@ -90,25 +90,23 @@
 			<version>1.0.0-rc0</version>
 		</dependency>
 		<!-- http://mvnrepository.com/artifact/javax.mail/mail -->
-		<dependency>
+	 	<dependency>
     		<groupId>javax.mail</groupId>
     		<artifactId>mail</artifactId>
     		<version>1.4</version>
 		</dependency>
-		<!-- http://mvnrepository.com/artifact/javax.activation/activation -->
 		<dependency>
     		<groupId>javax.activation</groupId>
     		<artifactId>activation</artifactId>
     		<version>1.1.1</version>
 		</dependency>
-		<!-- http://mvnrepository.com/artifact/javax/javaee-web-api -->
 			<dependency>
     		<groupId>javax</groupId>
     		<artifactId>javaee-web-api</artifactId>
     		<version>7.0</version>
-		</dependency>
+		</dependency> 
 	</dependencies>
 	<build>
-		<finalName>Blog</finalName>
+		<finalName>CMADBlog</finalName>
 	</build>
 </project>
