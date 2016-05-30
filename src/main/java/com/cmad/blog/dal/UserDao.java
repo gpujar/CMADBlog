@@ -41,21 +41,15 @@ public class UserDao {
 	}
 	
 	public void updateUser(User u) {
-		System.out.println("Updating user: " + u.toString());
 		Datastore dataStore = ServicesFactory.getMongoDB();
 		ObjectId id = u.getId();
-		System.out.println(" id "+id);
 		Query<User> query = dataStore.createQuery(User.class).field("id").equal(id);
-		System.out.println(" query  "+query);
 		Set<Post> posts = u.getPosts();
-		System.out.println("posts "+posts);
 		UpdateOperations<User> paramUpdateOperations = dataStore.createUpdateOperations(User.class).set("posts", posts);
-		System.out.println("paramUpdateOperations "+paramUpdateOperations);
 		dataStore.findAndModify(query, paramUpdateOperations); //.update(dataStore.createQuery(User.class), ops);
 	}
 	
 	public boolean deleteUser(Long id) {
-		System.out.println("Deleting user: " + id);
 		/*Session ses = HibernateUtil.currentSession();
 		try {
 			Transaction tx = ses.beginTransaction();
@@ -70,7 +64,6 @@ public class UserDao {
 	}
     
 	public User getUserByEmail(final String emailAddress){
-		System.out.println("Getting  user by email Address: " + emailAddress);
 		Datastore dataStore = ServicesFactory.getMongoDB();
 		return dataStore.createQuery(User.class).field("emailAddress").equal(emailAddress).get();
 	}

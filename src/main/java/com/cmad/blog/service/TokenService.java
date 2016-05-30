@@ -24,7 +24,6 @@ public class TokenService {
 	 *
 	 */
 	public Token createToken(User user) {
-		System.out.println("TokenService.createToken()");
 		Token token = new Token();
 		token.setUser(user);
 		token.setToken(UUID.randomUUID().toString());

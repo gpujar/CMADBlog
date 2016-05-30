@@ -25,7 +25,6 @@ public class StringUtils {
 		String encoded = authString.substring(6);
 		byte[] contentInBytes = Base64.decodeBase64(encoded);
 		String keyValue= new String(contentInBytes,"UTF-8");
-		System.out.println("StringUtils.getDecodedBase64()  keyvalue: " +keyValue);
 		return keyValue.substring(6);	
 	}
 	

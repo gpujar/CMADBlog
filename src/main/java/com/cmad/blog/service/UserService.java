@@ -58,7 +58,6 @@ public class UserService {
 		TokenDao.createToken(token);
 		// Setting the token in user also.
 		user.setToken(token);
-		System.out.println("Created user: " + user.toString());
 		return Response.status(201).entity("{\"token\":\"" + token.getToken() + "\"}").build();
 	}
 
@@ -69,15 +68,12 @@ public class UserService {
 	@Produces({ MediaType.APPLICATION_JSON })
 	public Response login(@FormParam("email") String email,@FormParam("password") String password) {
 		User userGot = getUserByEmail(email);
-		System.out.println("Got user :"+userGot);
 		if (userGot != null && checkPassword(userGot, password)) {
-			System.out.println(" Password is correct ");
 			Token token = tokenService.createToken(userGot);
 			token.setUser(userGot);
 			TokenDao.createToken(token);
 			// Setting the token in user also.
 			userGot.setToken(token);
-			System.out.println("Updated user: " + userGot.toString());
 			/*MailUtil util = new MailUtil(); //.mailSend();
 			util.mailSend();*/
 			return Response.status(200).entity("{\"token\":\"" + token.getToken() + "\"}").build();
@@ -101,7 +97,6 @@ public class UserService {
 		String email = user.getEmailAddress();
 		String password = user.getPassword();
 		User userGot = getUserByEmail(email);
-		System.out.println("Got user :"+userGot);
 		if (checkPassword(userGot, password)) {
 			Token token = tokenService.createToken(userGot);
 			UserDao.updateUser(userGot);
@@ -122,9 +117,7 @@ public class UserService {
 	@Path("/logout")
 	@Produces({ MediaType.TEXT_PLAIN })
 	public Response logout(@Context SecurityContext sc) {
-		System.out.println("UserService.logout()............   ");
 		User userId = ((User)sc.getUserPrincipal());
-		System.out.println("UserService.logout()  userId  "+userId);
 		boolean  flag = TokenDao.deleteTokenByUserId(userId);
 		if (flag) {
 			return Response.status(200).entity("Logged out the user successfully").build();
@@ -167,7 +160,6 @@ public class UserService {
 		String email = user.getEmailAddress();
 		String password = user.getPassword();
 		User userGot = getUserByEmail(email);
-		System.out.println("Got user :"+userGot);
 		if (userGot != null) {
 			resetPassword(userGot, password);
 			return Response.status(200).entity("Update password successfully").build();

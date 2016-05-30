@@ -17,20 +17,16 @@ import com.cmad.blog.entities.User;
 public class TokenDao {
 
 	public boolean createToken(Token token) {
-		System.out.println("TokenDao.Creating Token " + token.toString());
 		Datastore dataStore = ServicesFactory.getMongoDB();
 		dataStore.save(token);
 		return true;
 	}
 
 	public User getUserByTokenString(final String token) {
-		System.out.println("TokenDao.Getting user by token string :" + token);
 		User user = null;
 		if(token != null){
 			Datastore dataStore = ServicesFactory.getMongoDB();
-			System.out.println(" dataStore  "+dataStore);
 			Query<Token> q = dataStore.createQuery(Token.class).field("token").equal(token);
-			System.out.println(" q "+q);
 			Token tokenSession = q.get();
 			if(tokenSession != null)
 				user = tokenSession.getUser();
@@ -55,7 +51,6 @@ public class TokenDao {
 		Datastore dataStore = ServicesFactory.getMongoDB();
 		Query<Token> q = dataStore.createQuery(Token.class).field("user").equal(userId);
 		Token tokenSession = q.get();
-		System.out.println("TokenDao.deleteTokenByUserId()  token "+tokenSession);
 		dataStore.delete(tokenSession);
 		return true;
 		

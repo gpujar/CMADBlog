@@ -12,14 +12,11 @@ import com.cmad.blog.entities.Post;
 public class PostDao {
 
 	public List<Post> getPostList() {
-		System.out.println("PostDao.getPostList().......   ");		
 		Datastore dataStore = ServicesFactory.getMongoDB();
 		return dataStore.createQuery(Post.class).order("-createdOn").asList();
 	}
 
 	public List<Post> getPost(String searchString) {
-		System.out.println("PostDao.getPost()  searchString  "+searchString);
-		System.out.println("  searchString  "+searchString);
 		Datastore dataStore = ServicesFactory.getMongoDB();
 		return dataStore.createQuery(Post.class).field("title").contains(searchString).asList(); //.find(Post.class, "title =", searchString).asList();
 	}

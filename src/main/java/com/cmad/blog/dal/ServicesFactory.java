@@ -19,7 +19,6 @@ public class ServicesFactory {
 			MongoClientURI connectionString = new MongoClientURI("mongodb://localhost:27017");
 			MongoClient mongoClient = new MongoClient(connectionString);
 			Morphia morphia = new Morphia();
-			System.out.println(" morphia  "+morphia);
 			Datastore datastore = morphia.createDatastore(mongoClient, "blogs");
 			datastore.ensureIndexes();
 			mongoTL.set(datastore);

@@ -13,8 +13,6 @@ public class AuthenticationSecurityContext implements javax.ws.rs.core.SecurityC
 	}
 
 	public AuthenticationSecurityContext(User user) {
-		System.out
-				.println("AuthenticationSecurityContext.AuthenticationSecurityContext()");
 		this.user = user;
 	}
 
@@ -23,7 +21,6 @@ public class AuthenticationSecurityContext implements javax.ws.rs.core.SecurityC
      * @return user
      */
     public Principal getUserPrincipal() {
-        System.out.println("princeple: " + user);
         return this.user;
     }
 

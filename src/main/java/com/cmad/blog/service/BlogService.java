@@ -37,8 +37,6 @@ public class BlogService {
 	@Consumes({ MediaType.APPLICATION_FORM_URLENCODED })
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response addPost(@FormParam("title") String title, @FormParam("content") String body, @FormParam("synopsis") String synopsis, @Context SecurityContext sc) {  //Post blogPost,
-		System.out.println("BlogService.addPost().......... body  "+body);
-		System.out.println(" title  "+title);
 		User user = ((User)sc.getUserPrincipal());
 		System.out.println("  user  "+user);
 		if(user != null){
@@ -47,7 +45,6 @@ public class BlogService {
 			// Now update the user's  blog collection.
 			user.getPosts().add(post);
 			UserDao.updateUser(user);
-			System.out.println("BlogService.addPost()  Returning value ");
 			return Response.status(200).entity("Blog posted successfully").build();
 		}else{
 			return Response.status(404).entity("Blog posted successfully").build();
@@ -64,10 +61,8 @@ public class BlogService {
 	@Produces({ MediaType.APPLICATION_JSON })
 	public Response getPosts(@Context SecurityContext sc) {
 		User user = (User) sc.getUserPrincipal();
-		System.out.println("BlogService.getPosts()........ ");
 		Response response;
 		if(user != null){
-			System.out.println("BlogService.getPosts().......   ");
 			List<Post> posts = postDao.getPostList();
 			if(posts != null){
 				response = Response.status(200).entity(posts).encoding("Got result").build();
@@ -91,11 +86,9 @@ public class BlogService {
 	@Consumes({ MediaType.APPLICATION_JSON })
 	@Produces({ MediaType.APPLICATION_JSON })
 	public Response getPosts(@PathParam("searchString") String searchString, @Context SecurityContext sc) {
-		System.out.println("BlogService.getPosts(searchString)  "+searchString);
 		User user = (User) sc.getUserPrincipal();
 		Response response;
 		if(user != null){
-			System.out.println("BlogService.getPosts().......   ");
 			List<Post> posts = postDao.getPost(searchString);
 			if(posts != null){
 				response = Response.status(200).entity(posts).encoding("Got result").build();
@@ -118,8 +111,6 @@ public class BlogService {
 		Response response;
 		if(user != null){
 			Post post = postDao.getSinglePost(header);
-			System.out.println(" title "+post.getTitle());
-			System.out.println(" content  "+post.getContent());
 			response = Response.status(200).entity(post).encoding("Got result").build();
 		}else{
 			response =  Response.status(404).encoding("Session is logout, please login").build();
