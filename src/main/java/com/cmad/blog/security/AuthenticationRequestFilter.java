@@ -22,12 +22,6 @@ public class AuthenticationRequestFilter implements ContainerRequestFilter {
 
 	public void filter(ContainerRequestContext requestContext) throws IOException {	
 		System.out.println("AuthenticationRequestFilter.filter()...........  ");
-		try {
-			throw new Exception();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
 		final SecurityContext securityContext = requestContext.getSecurityContext();
 		// Get the request url path, if it is login or signup request, ignore
 		// them

@@ -63,11 +63,6 @@ public class BlogService {
 	@Consumes({ MediaType.APPLICATION_JSON })
 	@Produces({ MediaType.APPLICATION_JSON })
 	public Response getPosts(@Context SecurityContext sc) {
-		try {
-			throw new Exception();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		User user = (User) sc.getUserPrincipal();
 		System.out.println("BlogService.getPosts()........ ");
 		Response response;
