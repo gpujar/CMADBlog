@@ -22,7 +22,6 @@ import com.cmad.blog.dal.UserDao;
 import com.cmad.blog.entities.Token;
 import com.cmad.blog.entities.User;
 import com.cmad.blog.util.EncryptionKit;
-import com.cmad.blog.util.MailUtil;
 /**
  * Service class that handles REST request about token, which is for user
  * authentication check.

@@ -22,6 +22,12 @@ public class AuthenticationRequestFilter implements ContainerRequestFilter {
 
 	public void filter(ContainerRequestContext requestContext) throws IOException {	
 		System.out.println("AuthenticationRequestFilter.filter()...........  ");
+		try {
+			throw new Exception();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		final SecurityContext securityContext = requestContext.getSecurityContext();
 		// Get the request url path, if it is login or signup request, ignore
 		// them
@@ -36,7 +42,7 @@ public class AuthenticationRequestFilter implements ContainerRequestFilter {
 		// Get the user by this token
 		System.out.println("AuthenticationRequestFilter.filter() encodedString  "+encodedString);
 		if( StringUtils.isEmpty(encodedString)){
-			requestContext.setSecurityContext(new AuthenticationSecurityContext());
+			requestContext.setSecurityContext(new AuthenticationSecurityContext(null));
 		}else{
 			// Set the user to the securityContext for the request if the user is
 			// not null

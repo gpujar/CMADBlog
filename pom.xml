@@ -35,7 +35,7 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
-			<version>4.3.10.Final</version>
+			<version>4.3.9.Final</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
@@ -44,11 +44,11 @@
 			<version>4.3.2.Final</version>
 			<scope>compile</scope>
 		</dependency>
-		<dependency>
+		<!--  <dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.37</version>
-		</dependency>
+		</dependency>  -->
 		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
@@ -87,7 +87,7 @@
 			<version>1.0.0-rc0</version>
 		</dependency>
 		<!-- http://mvnrepository.com/artifact/javax.mail/mail -->
-	 	<dependency>
+	 <!--  	<dependency>
     		<groupId>javax.mail</groupId>
     		<artifactId>mail</artifactId>
     		<version>1.4</version>
@@ -101,7 +101,7 @@
     		<groupId>javax</groupId>
     		<artifactId>javaee-web-api</artifactId>
     		<version>7.0</version>
-		</dependency> 
+		</dependency> -->
 	</dependencies>
 	<build>
 		<finalName>CMADBlog</finalName>

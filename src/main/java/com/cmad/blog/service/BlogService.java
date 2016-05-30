@@ -2,6 +2,7 @@ package com.cmad.blog.service;
 
 
 import java.util.List;
+
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -14,6 +15,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+
 import com.cmad.blog.dal.PostDao;
 import com.cmad.blog.dal.UserDao;
 import com.cmad.blog.entities.Post;
@@ -37,19 +39,19 @@ public class BlogService {
 	public Response addPost(@FormParam("title") String title, @FormParam("content") String body, @FormParam("synopsis") String synopsis, @Context SecurityContext sc) {  //Post blogPost,
 		System.out.println("BlogService.addPost().......... body  "+body);
 		System.out.println(" title  "+title);
-		
 		User user = ((User)sc.getUserPrincipal());
-		
 		System.out.println("  user  "+user);
-		Post post = new Post(title, synopsis, body, user.getFirstName());
-		//post.setUser(user);
-		postDao.createPost(post);
-		// Now update the user's  blog collection.
-		user.getPosts().add(post);
-		UserDao.updateUser(user);
-		System.out.println("BlogService.addPost()  Returning value ");
-		//return Response.status(200).entity("Blog Post has been created").build();
-		return Response.status(200).entity("Blog posted successfully").build();
+		if(user != null){
+			Post post = new Post(title, synopsis, body, user.getFirstName());
+			postDao.createPost(post);
+			// Now update the user's  blog collection.
+			user.getPosts().add(post);
+			UserDao.updateUser(user);
+			System.out.println("BlogService.addPost()  Returning value ");
+			return Response.status(200).entity("Blog posted successfully").build();
+		}else{
+			return Response.status(404).entity("Blog posted successfully").build();
+		}
 	}
 
 	/**
@@ -60,9 +62,28 @@ public class BlogService {
 	@GET
 	@Consumes({ MediaType.APPLICATION_JSON })
 	@Produces({ MediaType.APPLICATION_JSON })
-	public List<Post> getPosts() {
-		System.out.println("BlogService.getPosts().......   ");
-		return postDao.getPostList();
+	public Response getPosts(@Context SecurityContext sc) {
+		try {
+			throw new Exception();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		User user = (User) sc.getUserPrincipal();
+		System.out.println("BlogService.getPosts()........ ");
+		Response response;
+		if(user != null){
+			System.out.println("BlogService.getPosts().......   ");
+			List<Post> posts = postDao.getPostList();
+			if(posts != null){
+				response = Response.status(200).entity(posts).encoding("Got result").build();
+			}else{
+				response = Response.status(200).entity(posts).encoding("Results not found").build();
+			}
+			
+		}else{
+			response =  Response.status(404).encoding("Session is logout, please login").build();
+		}
+		return response;
 	}
 
 	/**
@@ -74,20 +95,40 @@ public class BlogService {
 	@Path("/search/{searchString}")
 	@Consumes({ MediaType.APPLICATION_JSON })
 	@Produces({ MediaType.APPLICATION_JSON })
-	public List<Post> getPosts(@PathParam("searchString") String searchString) {
+	public Response getPosts(@PathParam("searchString") String searchString, @Context SecurityContext sc) {
 		System.out.println("BlogService.getPosts(searchString)  "+searchString);
-		return postDao.getPost(searchString);
+		User user = (User) sc.getUserPrincipal();
+		Response response;
+		if(user != null){
+			System.out.println("BlogService.getPosts().......   ");
+			List<Post> posts = postDao.getPost(searchString);
+			if(posts != null){
+				response = Response.status(200).entity(posts).encoding("Got result").build();
+			}else{
+				response = Response.status(200).entity(posts).encoding("Results not found").build();
+			}
+			
+		}else{
+			response =  Response.status(404).encoding("Session is logout, please login").build();
+		}
+		return response;
 	}
 
 	@GET
 	@Path("/{header}")
 	@Consumes({ MediaType.APPLICATION_JSON })
 	@Produces({ MediaType.APPLICATION_JSON })
-	public Post getPost(@PathParam("header") String header){
-		System.out.println("BlogService.getPost()  hrader  "+header);
-		Post post = postDao.getSinglePost(header);
-		System.out.println(" title "+post.getTitle());
-		System.out.println(" content  "+post.getContent());
-		return post;
+	public Response getPost(@PathParam("header") String header, @Context SecurityContext sc){
+		User user = (User) sc.getUserPrincipal();
+		Response response;
+		if(user != null){
+			Post post = postDao.getSinglePost(header);
+			System.out.println(" title "+post.getTitle());
+			System.out.println(" content  "+post.getContent());
+			response = Response.status(200).entity(post).encoding("Got result").build();
+		}else{
+			response =  Response.status(404).encoding("Session is logout, please login").build();
+		}
+		return response;
 	}
 }

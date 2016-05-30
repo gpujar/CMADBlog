@@ -25,10 +25,17 @@ public class TokenDao {
 
 	public User getUserByTokenString(final String token) {
 		System.out.println("TokenDao.Getting user by token string :" + token);
-		Datastore dataStore = ServicesFactory.getMongoDB();
-		Query<Token> q = dataStore.createQuery(Token.class).field("token").equal(token);
-		Token tokenSession = q.get();
-		return tokenSession.getUser();
+		User user = null;
+		if(token != null){
+			Datastore dataStore = ServicesFactory.getMongoDB();
+			System.out.println(" dataStore  "+dataStore);
+			Query<Token> q = dataStore.createQuery(Token.class).field("token").equal(token);
+			System.out.println(" q "+q);
+			Token tokenSession = q.get();
+			if(tokenSession != null)
+				user = tokenSession.getUser();
+		}
+		return user;
 	}
 
 	public ObjectId getUserIdByToken(Long token) {

@@ -13,6 +13,8 @@ public class AuthenticationSecurityContext implements javax.ws.rs.core.SecurityC
 	}
 
 	public AuthenticationSecurityContext(User user) {
+		System.out
+				.println("AuthenticationSecurityContext.AuthenticationSecurityContext()");
 		this.user = user;
 	}
 
