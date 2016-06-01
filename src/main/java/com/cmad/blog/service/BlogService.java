@@ -47,7 +47,7 @@ public class BlogService {
 			UserDao.updateUser(user);
 			return Response.status(200).entity("Blog posted successfully").build();
 		}else{
-			return Response.status(404).entity("Blog posted successfully").build();
+			return Response.status(404).entity("Blog post failed").build();
 		}
 	}
 

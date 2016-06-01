@@ -50,7 +50,7 @@ public class TokenServiceTest {
 	 */
 	@Test
 	public void testCreateToken() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 }

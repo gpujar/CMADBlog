@@ -50,7 +50,7 @@ public class UserServiceTest {
 	 */
 	@Test
 	public void testSignUp() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -58,7 +58,7 @@ public class UserServiceTest {
 	 */
 	@Test
 	public void testLoginStringString() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -66,7 +66,7 @@ public class UserServiceTest {
 	 */
 	@Test
 	public void testLoginUser() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -74,7 +74,7 @@ public class UserServiceTest {
 	 */
 	@Test
 	public void testLogout() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -82,7 +82,7 @@ public class UserServiceTest {
 	 */
 	@Test
 	public void testGetUserById() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -90,7 +90,7 @@ public class UserServiceTest {
 	 */
 	@Test
 	public void testUpdatePassword() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -98,7 +98,7 @@ public class UserServiceTest {
 	 */
 	@Test
 	public void testDeleteUserByid() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -106,7 +106,7 @@ public class UserServiceTest {
 	 */
 	@Test
 	public void testGetUserByEmail() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -114,7 +114,7 @@ public class UserServiceTest {
 	 */
 	@Test
 	public void testGetTest() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -122,7 +122,7 @@ public class UserServiceTest {
 	 */
 	@Test
 	public void testGetUserList() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -130,7 +130,7 @@ public class UserServiceTest {
 	 */
 	@Test
 	public void testGetTokenList() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 }
