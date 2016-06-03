@@ -28,6 +28,13 @@ public class BlogService {
 
 	public @Inject PostDao postDao;
 
+	@GET
+	@Path("/test")
+	public Response testJUnit(){
+		System.out.println("BlogService.testJUnit().......");
+		return Response.status(200).entity("Blog posted successfully").build();
+	}
+	
 	/**
 	 * User is sending the Blog post content.
 	 * 
@@ -36,7 +43,8 @@ public class BlogService {
 	@POST
 	@Consumes({ MediaType.APPLICATION_FORM_URLENCODED })
 	@Produces(MediaType.TEXT_PLAIN)
-	public Response addPost(@FormParam("title") String title, @FormParam("content") String body, @FormParam("synopsis") String synopsis, @Context SecurityContext sc) {  //Post blogPost,
+	public Response addPost(@FormParam("title") String title, @FormParam("content") String body, @FormParam("synopsis") String synopsis, @Context SecurityContext sc) {
+		System.out.println("BlogService.addPost()........ ");
 		User user = ((User)sc.getUserPrincipal());
 		System.out.println("  user  "+user);
 		if(user != null){
