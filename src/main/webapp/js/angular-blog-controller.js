@@ -58,7 +58,7 @@
 		var postData = $.param({
          	'firstName':  $scope.newuser.firstName,
             'lastName': $scope.newuser.lastName,
-            'emailAddress': $scope.newuser.email,
+            'email': $scope.newuser.email,
             'password': $scope.newuser.password
 		});
 		$http({

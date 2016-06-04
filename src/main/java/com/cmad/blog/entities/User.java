@@ -4,10 +4,7 @@ import java.security.Principal;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.bson.types.ObjectId;
@@ -28,7 +25,6 @@ public class User implements Principal{
 	private String lastName;
 	
 	@NotNull
-	@Pattern(regexp = ".+@.+\\.[a-z]+")
 	private String emailAddress;
 
 	@NotNull

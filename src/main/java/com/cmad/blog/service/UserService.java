@@ -90,7 +90,7 @@ public class UserService {
 	 * @return Response with status code and message in json format
 	 */
 	@POST
-	@Path("/login")
+	@Path("/login/object")
 	@Consumes({ MediaType.APPLICATION_JSON })
 	@Produces({ MediaType.APPLICATION_JSON })
 	public Response login(User user) {
