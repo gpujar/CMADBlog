@@ -15,7 +15,7 @@ public class ServicesFactory {
 	 * @return
 	 */
 	public static Datastore getMongoDB(){
-		if(mongoTL.get()==null){
+		if(mongoTL.get() == null){
 			MongoClientURI connectionString = new MongoClientURI("mongodb://173.36.55.178:27017");
 			MongoClient mongoClient = new MongoClient(connectionString);
 			Morphia morphia = new Morphia();
