@@ -3,54 +3,38 @@
  */
 package com.cmad.blog.service;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import javax.ws.rs.core.Application;
+
+import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.test.JerseyTest;
+import org.glassfish.jersey.test.TestProperties;
 import org.junit.Test;
+
+import com.cmad.blog.entities.User;
+import com.cmad.blog.service.UserServiceTest.SecurityContextFilter;
 
 /**
  * @author gpujar
  *
  */
-public class TokenServiceTest {
+public class TokenServiceTest extends JerseyTest {
 
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-	}
-
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
-
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@Before
-	public void setUp() throws Exception {
-	}
-
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@After
-	public void tearDown() throws Exception {
-	}
-
+	TokenService tokenService = new TokenService();
+	
+	@Override
+    public Application configure() {
+        enable(TestProperties.LOG_TRAFFIC);
+        return new ResourceConfig(TokenService.class).register(SecurityContextFilter.class);
+    }
 	/**
 	 * Test method for {@link com.cmad.blog.service.TokenService#createToken(com.cmad.blog.entities.User)}.
 	 */
 	@Test
 	public void testCreateToken() {
-		//fail("Not yet implemented");
+		User user = new User();
+		assertNotNull(tokenService.createToken(user));
 	}
 
 }

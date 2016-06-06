@@ -78,14 +78,6 @@ public class Post {
 		this.firstName = firstName;
 	}
 	
-	/*public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}*/
-
 	@Override
 	public String toString() {
 		return "BlogPost [Id=" + Id + ", synopsis=" + synopsis + ",title=" + title + ", createdOn=" + createdOn + "]";

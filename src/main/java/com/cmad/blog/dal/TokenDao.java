@@ -17,9 +17,15 @@ import com.cmad.blog.entities.User;
 public class TokenDao {
 
 	public boolean createToken(Token token) {
-		Datastore dataStore = ServicesFactory.getMongoDB();
-		dataStore.save(token);
-		return true;
+		boolean status;
+		if (token != null) {
+			Datastore dataStore = ServicesFactory.getMongoDB();
+			dataStore.save(token);
+			status = true;
+		} else {
+			status = false;
+		}
+		return status;
 	}
 
 	public User getUserByTokenString(final String token) {
@@ -47,13 +53,19 @@ public class TokenDao {
 		return null;
 	}
 
-	public boolean deleteTokenByUserId(User userId) {
-		Datastore dataStore = ServicesFactory.getMongoDB();
-		Query<Token> q = dataStore.createQuery(Token.class).field("user").equal(userId);
-		Token tokenSession = q.get();
-		dataStore.delete(tokenSession);
-		return true;
-		
+	public boolean deleteTokenByUserId(User user) {
+		boolean status;
+		if (user != null) {
+			Datastore dataStore = ServicesFactory.getMongoDB();
+			Query<Token> q = dataStore.createQuery(Token.class).field("user")
+					.equal(user);
+			Token tokenSession = q.get();
+			dataStore.delete(tokenSession);
+			status = true;
+		} else {
+			status = false;
+		}
+		return status;
 	}
 
 	public List<Token> getUserTokenList() {

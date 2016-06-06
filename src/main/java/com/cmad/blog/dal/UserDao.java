@@ -23,16 +23,9 @@ public class UserDao {
 	}
 
 	public User getUser(ObjectId id) {
-		/*Session ses = HibernateUtil.currentSession();
-		try {
-			Criteria crit = ses.createCriteria(User.class);
-			crit.add(Restrictions.idEq(id));
-			User u = (User) crit.uniqueResult();
-			return u;
-		} finally {
-			HibernateUtil.closeSession();
-		}*/
-		return null;
+		Datastore dataStore = ServicesFactory.getMongoDB();
+		Query<User> query = dataStore.createQuery(User.class).field("id").equal(id);
+		return query.get();
 	}
 
 	public void saveUser(User user) {
@@ -49,7 +42,7 @@ public class UserDao {
 		dataStore.findAndModify(query, paramUpdateOperations); //.update(dataStore.createQuery(User.class), ops);
 	}
 	
-	public boolean deleteUser(Long id) {
+	public boolean deleteUser(ObjectId id) {
 		/*Session ses = HibernateUtil.currentSession();
 		try {
 			Transaction tx = ses.beginTransaction();

@@ -30,9 +30,9 @@ import com.cmad.blog.util.EncryptionKit;
 public class UserService {
 
 	
-	public @Inject UserDao UserDao;
+	public @Inject UserDao userDao;
 
-	public @Inject TokenDao TokenDao;
+	public @Inject TokenDao tokenDao;
 
 	public @Inject TokenService tokenService;
 
@@ -51,11 +51,11 @@ public class UserService {
 			@FormParam("password") String password) {
 		User user = new User(firstName,lastName,email);
 		resetPassword(user, password);
-		UserDao.saveUser(user);
+		userDao.saveUser(user);
 		//create the token and save to db.
 		Token token = tokenService.createToken(user);
 		token.setUser(user);	
-		TokenDao.createToken(token);
+		tokenDao.createToken(token);
 		// Setting the token in user also.
 		user.setToken(token);
 		return Response.status(201).entity("{\"token\":\"" + token.getToken() + "\"}").build();
@@ -71,7 +71,7 @@ public class UserService {
 		if (userGot != null && checkPassword(userGot, password)) {
 			Token token = tokenService.createToken(userGot);
 			token.setUser(userGot);
-			TokenDao.createToken(token);
+			tokenDao.createToken(token);
 			// Setting the token in user also.
 			userGot.setToken(token);
 			/*MailUtil util = new MailUtil(); //.mailSend();
@@ -99,8 +99,8 @@ public class UserService {
 		User userGot = getUserByEmail(email);
 		if (checkPassword(userGot, password)) {
 			Token token = tokenService.createToken(userGot);
-			UserDao.updateUser(userGot);
-			TokenDao.createToken(token);
+			userDao.updateUser(userGot);
+			tokenDao.createToken(token);
 			token.setUser(userGot);
 			return Response.status(200).entity("{\"token\":\"" + token.getToken() + "\"}").build();
 		} else {
@@ -117,8 +117,8 @@ public class UserService {
 	@Path("/logout")
 	@Produces({ MediaType.TEXT_PLAIN })
 	public Response logout(@Context SecurityContext sc) {
-		User userId = ((User)sc.getUserPrincipal());
-		boolean  flag = TokenDao.deleteTokenByUserId(userId);
+		User user = ((User)sc.getUserPrincipal());
+		boolean  flag = tokenDao.deleteTokenByUserId(user);
 		if (flag) {
 			return Response.status(200).entity("Logged out the user successfully").build();
 		} else {
@@ -136,7 +136,7 @@ public class UserService {
 	@Path("{id}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN })
 	public Response getUserById(@PathParam("id") ObjectId id) {
-		User user = UserDao.getUser(id);
+		User user = userDao.getUser(id);
 		if (user == null) {
 			return Response.status(404).entity("User with this id not found").build();
 		} else {
@@ -180,8 +180,8 @@ public class UserService {
 	@Path("id")
 	@Consumes({ MediaType.APPLICATION_JSON })
 	@Produces({ MediaType.TEXT_PLAIN })
-	public Response deleteUserByid(@PathParam("id") Long id) {
-		boolean deleted = UserDao.deleteUser(id);
+	public Response deleteUserByid(@PathParam("id") ObjectId id) {
+		boolean deleted = userDao.deleteUser(id);
 		if (deleted) {
 			return Response.status(204).entity("User with the id" + id + "has been deleted").build();
 		} else {
@@ -196,7 +196,7 @@ public class UserService {
 	 * @return user
 	 */
 	public User getUserByEmail(String email) {
-		User user = UserDao.getUserByEmail(email);
+		User user = userDao.getUserByEmail(email);
 		return user;
 	}
 
@@ -208,10 +208,15 @@ public class UserService {
 	 * @return user
 	 */
 	private boolean checkPassword(User user, String password) {
-		String salt = user.getSalt();
-		String psw = EncryptionKit.md5Encrypt(password + salt);
-		return psw.equals(user.getPassword());
-
+		boolean status;
+		if (user != null) {
+			String salt = user.getSalt();
+			String psw = EncryptionKit.md5Encrypt(password + salt);
+			status = psw.equals(user.getPassword());
+		} else {
+			status = false;
+		}
+		return status;
 	}
 
 	/**
@@ -223,17 +228,6 @@ public class UserService {
 		user.setSalt(EncryptionKit.md5Encrypt(UUID.randomUUID().toString()));
 		user.setPassword(EncryptionKit.md5Encrypt(password + user.getSalt()));
 	}
-
-	/**
-	 * For test purpose without filter by AuthenticationResponseFilter
-	 */
-	@GET
-	@Path("testRest")
-	public Response getTest() {
-		String output = "Hello world!";
-		return Response.ok(output).build();
-	}
-	
 	
 	/**
 	 * @return User list
@@ -242,7 +236,7 @@ public class UserService {
 	@Path("testRest/user")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public List<User> getUserList() {
-		return UserDao.getUserList();
+		return userDao.getUserList();
 	}
 
 	/**
@@ -252,7 +246,7 @@ public class UserService {
 	@Path("testRest/token")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public List<Token> getTokenList() {
-		return TokenDao.getUserTokenList();
+		return tokenDao.getUserTokenList();
 	}
 
 }

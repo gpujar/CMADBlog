@@ -34,27 +34,16 @@ public class BlogServiceTest extends JerseyTest{
 	BlogService service = new BlogService();
 	
 	
-	/**
-	 * @throws java.lang.Exception
-	 */
-	
 	@Override
     public Application configure() {
         enable(TestProperties.LOG_TRAFFIC);
-      //  enable(TestProperties.DUMP_ENTITY);
-      //  forceSet(TestProperties.CONTAINER_PORT, "0");
         return new ResourceConfig(BlogService.class).register(SecurityContextFilter.class);
     }
 	
 	 @PreMatching
 	    public static class SecurityContextFilter implements ContainerRequestFilter {
-
 	     //   @Override
 	        public void filter(ContainerRequestContext requestContext) throws IOException {
-	        	System.out
-						.println("BlogServiceTest.SecurityContextFilter.filter()...........  ");
-	        //	return;
-	        //	requestContext.setSecurityContext(new AuthenticationSecurityContext(user));
 	            requestContext.setSecurityContext(new AuthenticationSecurityContext(new User()){
 	                public Principal getUserPrincipal() {
 	                    return new User() {
@@ -69,6 +58,7 @@ public class BlogServiceTest extends JerseyTest{
 	        }  
 	    }
 	 
+	 
 	 AuthenticationSecurityContext context = new AuthenticationSecurityContext(new User()){
          public Principal getUserPrincipal() {
              return new User() {
@@ -81,6 +71,7 @@ public class BlogServiceTest extends JerseyTest{
          	return SecurityContext.BASIC_AUTH; }
      };
 
+     
      AuthenticationSecurityContext contextNull = new AuthenticationSecurityContext(new User()){
          public Principal getUserPrincipal() {
              return null;
