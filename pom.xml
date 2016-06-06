@@ -93,11 +93,11 @@
 			<artifactId>morphia</artifactId>
 			<version>1.0.0-rc0</version>
 		</dependency>
-		<plugin>
+		<dependency>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>sonar-maven-plugin</artifactId>
             <version>2.2</version>
-        </plugin>
+        </dependency>
 		<!-- http://mvnrepository.com/artifact/javax.mail/mail -->
 	 <!--  	<dependency>
     		<groupId>javax.mail</groupId>
