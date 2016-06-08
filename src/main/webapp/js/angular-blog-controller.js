@@ -1,5 +1,5 @@
 (function(){
-	var reqUrl = "http://173.36.55.178:8889/CMADBlog/rest/";
+	var reqUrl = "http://localhost:8080/CMADBlog/rest/";   //http://173.36.55.178:8889/
 	var module = angular.module('BlogApp',[ 'ngRoute' ]);
 	module.config(['$routeProvider',function($routeProvider){
 		$routeProvider.when('/login', {
@@ -31,6 +31,9 @@
 	
 	module.controller('loginController', function($http, $log, $scope, $location){
 		$scope.login =  function(user) {
+			$scope.logging = true;
+			$scope.error = false;
+			$scope.success = false;
 			 var postData = $.param({
 		            	"email": $scope.user.username,
 		                "password": $scope.user.password
@@ -41,13 +44,17 @@
 					"method" : "POST",
 					"data" : postData			
 				}).success( function(data, textStatus, jqXHR) {
+					$scope.logging = false;
+					$scope.success = true;
+					$scope.error = false;
 					if(typeof(Storage) !== "undefined") {
 						sessionStorage.setItem('token', data.token);
 						}
 					$location.path('/blogList');
 					$scope.$apply();
 				}).error(function(jqXHR, textStatus, errorThrown) {
-					console.log(jqXHR.responseText);
+					$scope.logging = false;
+					$scope.error = true;
 				});
 		};
 	});
@@ -55,6 +62,8 @@
 	
 	module.controller('registerController', function($http, $scope, $log, $location) {
 		$scope.register = function(newuser){
+			$scope.error = false;
+			$scope.singning = true;
 		var postData = $.param({
          	'firstName':  $scope.newuser.firstName,
             'lastName': $scope.newuser.lastName,
@@ -71,10 +80,12 @@
 			if (typeof (Storage) !== "undefined") {
 				sessionStorage.token = json.token;
 			}
+			$scope.singning = false;
 			$location.path('/blogList');
 			$scope.$apply();
 		}).error(function(jqXHR, textStatus, errorThrown) {
-			console.log(jqXHR.responseText);
+			$scope.singning = false;
+			$scope.error = true;
 		});
 		$scope.newuser ='';
 		};
@@ -155,10 +166,12 @@
 		
 		$scope.search = function(){	
 			var text = $scope.searchText;
+			var url ;
 			if(text == null || text == ""){
-				return false;
+				url = reqUrl+'blog';
+			}else{
+				url = reqUrl+'blog/search/'+text;
 			}
-			var url = reqUrl+'blog/search/'+text;
 			var token;
 			if(sessionStorage.getItem('token') != null){
 				token = "Basic " + sessionStorage.getItem('token');

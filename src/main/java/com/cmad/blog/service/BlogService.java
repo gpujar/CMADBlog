@@ -103,7 +103,6 @@ public class BlogService {
 			}else{
 				response = Response.status(200).entity(posts).encoding("Results not found").build();
 			}
-			
 		}else{
 			response =  Response.status(404).encoding("Session is logout, please login").build();
 		}

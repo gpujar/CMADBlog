@@ -21,8 +21,14 @@ public class PostDao {
 
 	public List<Post> getPost(String searchString) {
 		Datastore dataStore = ServicesFactory.getMongoDB();
-		Query<Post> query = dataStore.createQuery(Post.class);
-		return query.field("title").contains(searchString).asList(); //.find(Post.class, "title =", searchString).asList();
+		Query<Post> query = dataStore.createQuery(Post.class).order("-createdOn");
+		return query.field("title").containsIgnoreCase(searchString).asList(); //Pattern.compile(category, Pattern.CASE_INSENSITIVE)
+	}
+	
+	public List<Post> getPost1(String searchString) {
+		Datastore dataStore = ServicesFactory.getMongoDB();
+		Query<Post> query = dataStore.createQuery(Post.class).order("-createdOn").filter("title =", searchString).filter("synopsis =", searchString);
+		return query.asList(); //.find(Post.class, "title =", searchString).asList();
 	}
 
 	public Post getSinglePost(String header){
