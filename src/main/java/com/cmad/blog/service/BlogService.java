@@ -44,7 +44,7 @@ public class BlogService {
 	@Consumes({ MediaType.APPLICATION_FORM_URLENCODED })
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response addPost(@FormParam("title") String title, @FormParam("content") String body, @FormParam("synopsis") String synopsis, @Context SecurityContext sc) {
-		System.out.println("BlogService.addPost()........ ");
+		System.out.println("BlogService.addPost()........ synopsis  "+synopsis);
 		User user = ((User)sc.getUserPrincipal());
 		System.out.println("  user  "+user);
 		if(user != null){
@@ -92,7 +92,7 @@ public class BlogService {
 	@GET
 	@Path("/search/{searchString}")
 	@Consumes({ MediaType.APPLICATION_JSON })
-	@Produces({ MediaType.APPLICATION_JSON })
+	@Produces({ MediaType.APPLICATION_JSON})
 	public Response getPosts(@PathParam("searchString") String searchString, @Context SecurityContext sc) {
 		User user = (User) sc.getUserPrincipal();
 		Response response;

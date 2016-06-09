@@ -102,7 +102,6 @@
 		});
 	
 	module.controller('blogPostController', function($scope, $http, $log, $location, messages){
-		
 		$scope.blogPost = function(){	
 			var dataToSend = $.param({
 				"title": $scope.blog.title,
@@ -113,7 +112,6 @@
 			if(sessionStorage.getItem('token') != null){
 				token = "Basic " + sessionStorage.getItem('token');
 			}
-		
 			$http({
 		        "url" : reqUrl+"blog",
 		        "method" : "POST",
@@ -228,6 +226,7 @@
 				"Authorization" : token
 				}		
 		}).success(function(data, textStatus, jqXHR){
+			//data = JSON.stringify(data).replace(/\n/g,'<br />').replace(/\t/g,'&nbsp;&nbsp;&nbsp;');
 			$scope.blog = data;
 		}).error(function(jqXHR, textStatus, errorThrown){
 			console.log(jqXHR.responseText);
@@ -257,7 +256,6 @@
 	};
 	});
 	
-	
 	module.controller('contactController', function($http, $scope, $location){
 		$scope.logout =  function(){			
 			var token;
@@ -281,7 +279,6 @@
 		};
 	});
 	
-	
 	module.controller("aboutUsController", function($http, $scope, $location){
 		$scope.logout =  function(){
 			var token;
@@ -304,6 +301,5 @@
 				});
 		};
 	});
-	
 	
 })();
