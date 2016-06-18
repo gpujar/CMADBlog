@@ -52,7 +52,7 @@
 						}
 					$location.path('/blogList');
 					$scope.$apply();
-				}).error(function(jqXHR, textStatus, errorThrown) {
+				}).error(function(data, textStatus, errorThrown) {
 					$scope.logging = false;
 					$scope.error = true;
 				});

@@ -16,12 +16,16 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+
 import org.bson.types.ObjectId;
+
 import com.cmad.blog.dal.TokenDao;
+import com.cmad.blog.dal.TokenUtil;
 import com.cmad.blog.dal.UserDao;
 import com.cmad.blog.entities.Token;
 import com.cmad.blog.entities.User;
 import com.cmad.blog.util.EncryptionKit;
+
 /**
  * Service class that handles REST request about token, which is for user
  * authentication check.
@@ -29,14 +33,12 @@ import com.cmad.blog.util.EncryptionKit;
 @Path("/user")
 public class UserService {
 
-	
 	public @Inject UserDao userDao;
 
 	public @Inject TokenDao tokenDao;
 
-	public @Inject TokenService tokenService;
+	public @Inject TokenUtil tokenService;
 
-	
 	/*
 	 * Create new user account by form
 	 * 
@@ -45,6 +47,7 @@ public class UserService {
 	 * @return Response with status code and message in json format
 	 */
 	@POST
+	//@Path("/register")
 	@Consumes({ MediaType.APPLICATION_FORM_URLENCODED })
 	@Produces({ MediaType.TEXT_HTML })
 	public Response signUp(@FormParam("firstName") String firstName,@FormParam("lastName") String lastName,@FormParam("email") String email,
@@ -58,7 +61,7 @@ public class UserService {
 		tokenDao.createToken(token);
 		// Setting the token in user also.
 		user.setToken(token);
-		return Response.status(201).entity("{\"token\":\"" + token.getToken() + "\"}").build();
+		return Response.status(200).entity("{\"token\":\"" + token.getToken() + "\"}").build();
 	}
 
 	
@@ -74,11 +77,10 @@ public class UserService {
 			tokenDao.createToken(token);
 			// Setting the token in user also.
 			userGot.setToken(token);
-			/*MailUtil util = new MailUtil(); //.mailSend();
-			util.mailSend();*/
 			return Response.status(200).entity("{\"token\":\"" + token.getToken() + "\"}").build();
 		} else {
-			return Response.status(404).entity("{\"token\":\"" + "Test" + "\"}").build();
+			//return Response.status(404).entity("{\"token\":\"" + "Test" + "\"}").build();
+			return Response.status(404).entity(" User not found ").build();
 		}
 	}
 	
@@ -122,7 +124,7 @@ public class UserService {
 		if (flag) {
 			return Response.status(200).entity("Logged out the user successfully").build();
 		} else {
-			return Response.status(404).entity("This user can not be deleted").build();
+			return Response.status(400).entity("This user can not be deleted").build();
 		}
 	}
 

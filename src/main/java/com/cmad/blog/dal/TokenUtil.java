@@ -1,4 +1,4 @@
-package com.cmad.blog.service;
+package com.cmad.blog.dal;
 
 import java.util.UUID;
 
@@ -14,7 +14,7 @@ import com.cmad.blog.entities.User;
  */
 @Contract
 @Service
-public class TokenService {
+public class TokenUtil {
 
 	/**
 	 * Create token by userId

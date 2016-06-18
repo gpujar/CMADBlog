@@ -23,6 +23,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import com.cmad.blog.dal.TokenDao;
+import com.cmad.blog.dal.TokenUtil;
 import com.cmad.blog.dal.UserDao;
 import com.cmad.blog.entities.Token;
 import com.cmad.blog.entities.User;
@@ -92,7 +93,7 @@ public class UserServiceTest extends JerseyTest{
 	public void testSignUp() {
 		userService.userDao = Mockito.mock(UserDao.class);
 		userService.tokenDao = Mockito.mock(TokenDao.class);
-		userService.tokenService = Mockito.mock(TokenService.class);
+		userService.tokenService = Mockito.mock(TokenUtil.class);
 		Token token = Mockito.mock(Token.class);
 		Mockito.doNothing().when(userService.userDao).saveUser((User) Mockito.any());
 		Mockito.doReturn(true).when(userService.tokenDao).createToken((Token) Mockito.any());

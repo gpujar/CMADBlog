@@ -12,6 +12,7 @@ import org.glassfish.jersey.test.JerseyTest;
 import org.glassfish.jersey.test.TestProperties;
 import org.junit.Test;
 
+import com.cmad.blog.dal.TokenUtil;
 import com.cmad.blog.entities.User;
 import com.cmad.blog.service.UserServiceTest.SecurityContextFilter;
 
@@ -21,15 +22,15 @@ import com.cmad.blog.service.UserServiceTest.SecurityContextFilter;
  */
 public class TokenServiceTest extends JerseyTest {
 
-	TokenService tokenService = new TokenService();
+	TokenUtil tokenService = new TokenUtil();
 	
 	@Override
     public Application configure() {
         enable(TestProperties.LOG_TRAFFIC);
-        return new ResourceConfig(TokenService.class).register(SecurityContextFilter.class);
+        return new ResourceConfig(TokenUtil.class).register(SecurityContextFilter.class);
     }
 	/**
-	 * Test method for {@link com.cmad.blog.service.TokenService#createToken(com.cmad.blog.entities.User)}.
+	 * Test method for {@link com.cmad.blog.service.TokenUtil#createToken(com.cmad.blog.entities.User)}.
 	 */
 	@Test
 	public void testCreateToken() {
