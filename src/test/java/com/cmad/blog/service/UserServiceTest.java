@@ -99,7 +99,7 @@ public class UserServiceTest extends JerseyTest{
 		Mockito.doReturn(true).when(userService.tokenDao).createToken((Token) Mockito.any());
 		Mockito.doReturn(token).when(userService.tokenService).createToken((User) Mockito.any());
 		Response response = userService.signUp("First Name", "Last Name", "giri.in.java@gmail.com", "1234");
-		assertEquals(response.getStatus(), 201);
+		assertEquals(response.getStatus(), 200);
 	}
 
 	
@@ -178,7 +178,7 @@ public class UserServiceTest extends JerseyTest{
 	public void testLogout_No_User() {
 		userService.tokenDao = Mockito.mock(TokenDao.class);
 		Response response = userService.logout(contextNull);
-		assertEquals(404, response.getStatus());
+		assertEquals(400, response.getStatus());
 	}
 	
 	/**

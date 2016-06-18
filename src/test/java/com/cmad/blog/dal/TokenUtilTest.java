@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.cmad.blog.service;
+package com.cmad.blog.dal;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -20,7 +20,7 @@ import com.cmad.blog.service.UserServiceTest.SecurityContextFilter;
  * @author gpujar
  *
  */
-public class TokenServiceTest extends JerseyTest {
+public class TokenUtilTest extends JerseyTest {
 
 	TokenUtil tokenService = new TokenUtil();
 	
