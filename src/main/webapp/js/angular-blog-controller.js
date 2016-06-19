@@ -1,5 +1,5 @@
 (function(){
-	var reqUrl = "http://localhost:8080/CMADBlog/rest/"; //"http://173.36.55.178:8889/CMADBlog/rest/"; // 
+	var reqUrl = "http://173.36.55.178:8889/CMADBlog/rest/"; //"http://localhost:8080/CMADBlog/rest/";  
 	var module = angular.module('BlogApp',[ 'ngRoute' ]);
 	module.config(['$routeProvider',function($routeProvider){
 		$routeProvider.when('/login', {
@@ -39,7 +39,7 @@
 		                "password": $scope.user.password
 		        });
 				$http({
-					"url" : reqUrl+'user/login',
+					"url" : reqUrl+'1/login',
 					"headers": {'Content-Type': 'application/x-www-form-urlencoded'},
 					"method" : "POST",
 					"data" : postData			
@@ -71,7 +71,7 @@
             'password': $scope.newuser.password
 		});
 		$http({
-			"url" : reqUrl+'user/register',
+			"url" : reqUrl+'1/user',
 			"headers": {'Content-Type': 'application/x-www-form-urlencoded'},
 			"method" : 'POST',
 			"data" : postData,
@@ -113,7 +113,7 @@
 				token = "Basic " + sessionStorage.getItem('token');
 			}
 			$http({
-		        "url" : reqUrl+"blog",
+		        "url" : reqUrl+"1/blog",
 		        "method" : "POST",
 		        "headers" : {"Content-Type" : "application/x-www-form-urlencoded",
 		        	"Authorization" : token },
@@ -132,7 +132,7 @@
 				token = "Basic " + sessionStorage.getItem('token');
 			}
 			$http({
-				"url" : reqUrl+'user/logout',
+				"url" : reqUrl+'1/logout',
 				"method" : 'POST',
 				"headers" : {"Content-Type" : "application/x-www-form-urlencoded",
 		        "Authorization" : token }}).success(function(data, textStatus, jqXHR) {
@@ -152,7 +152,7 @@
 	module.controller('blogListController', function($scope, $http, $log, $location, messages){
 		
 		$http({
-			"url" : reqUrl+'blog',		
+			"url" : reqUrl+'1/blog',		
 			"headers" :{'Authorization' : "Basic " + sessionStorage.getItem('token')},
 			"method" : 'GET'}).success(function(data, textStatus, jqXHR) {
 				$scope.blogs =  data; //JSON.stringify(data); 
@@ -166,9 +166,9 @@
 			var text = $scope.searchText;
 			var url ;
 			if(text == null || text == ""){
-				url = reqUrl+'blog';
+				url = reqUrl+'1/blog';
 			}else{
-				url = reqUrl+'blog/search/'+text;
+				url = reqUrl+'1/blog/title/'+text;
 			}
 			var token;
 			if(sessionStorage.getItem('token') != null){
@@ -193,7 +193,7 @@
 				token = "Basic " + sessionStorage.getItem('token');
 			}
 			$http({
-				"url" : reqUrl+'user/logout',
+				"url" : reqUrl+'1/logout',
 				"method" : 'POST',
 				"headers" : {"Content-Type" : "application/x-www-form-urlencoded",
 		        "Authorization" : token }
@@ -214,7 +214,7 @@
 	
 	module.controller('blogSynopsisController',function($scope, $log, $http, $location, messages){
 		var searchString = messages.getText();
-		var url = reqUrl+'blog/'+searchString;
+		var url = reqUrl+'1/blog/synopsis/'+searchString;
 		var token;
 		if(sessionStorage.getItem('token') != null){
 			token = "Basic " + sessionStorage.getItem('token');
@@ -240,7 +240,7 @@
 			token = "Basic " + sessionStorage.getItem('token');
 		}
 		$http({
-			"url" : reqUrl+'user/logout',
+			"url" : reqUrl+'1/logout',
 			"method" : 'POST',
 			"headers" : {"Content-Type" : "application/x-www-form-urlencoded",
 	        "Authorization" : token }}).success(function(data, textStatus, jqXHR) {
@@ -263,7 +263,7 @@
 				token = "Basic " + sessionStorage.getItem('token');
 			}
 			$http({
-				"url" : reqUrl+'user/logout',
+				"url" : reqUrl+'1/logout',
 				"method" : 'POST',
 				"headers" : {"Content-Type" : "application/x-www-form-urlencoded",
 		        "Authorization" : token }}).success(function(data, textStatus, jqXHR) {
@@ -286,7 +286,7 @@
 				token = "Basic " + sessionStorage.getItem('token');
 			}
 			$http({
-				"url" : reqUrl+'user/logout',
+				"url" : reqUrl+'1/logout',
 				"method" : 'POST',
 				"headers" : {"Content-Type" : "application/x-www-form-urlencoded",
 		        "Authorization" : token }}).success(function(data, textStatus, jqXHR) {

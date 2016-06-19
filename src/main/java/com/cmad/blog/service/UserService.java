@@ -30,7 +30,7 @@ import com.cmad.blog.util.EncryptionKit;
  * Service class that handles REST request about token, which is for user
  * authentication check.
  */
-@Path("/user")
+@Path("/1")
 public class UserService {
 
 	public @Inject UserDao userDao;
@@ -47,7 +47,7 @@ public class UserService {
 	 * @return Response with status code and message in json format
 	 */
 	@POST
-	@Path("/register")
+	@Path("/user")
 	@Consumes({ MediaType.APPLICATION_FORM_URLENCODED })
 	@Produces({ MediaType.TEXT_HTML })
 	public Response signUp(@FormParam("firstName") String firstName,@FormParam("lastName") String lastName,@FormParam("email") String email,
@@ -96,8 +96,8 @@ public class UserService {
 	 * 
 	 * @return Response with status code and message in json format
 	 */
-	@POST
-	@Path("/login/object")
+	@GET
+	@Path("/login/user")
 	@Consumes({ MediaType.APPLICATION_JSON })
 	@Produces({ MediaType.APPLICATION_JSON })
 	public Response login(User user) {
@@ -140,7 +140,7 @@ public class UserService {
 	 *         format
 	 */
 	@GET
-	@Path("{id}")
+	@Path("/user/{id}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN })
 	public Response getUserById(@PathParam("id") ObjectId id) {
 		User user = userDao.getUser(id);
@@ -160,7 +160,7 @@ public class UserService {
 	 *         format
 	 */
 	@PUT
-	@Path("updatePassword")
+	@Path("/user/{id}")
 	@Consumes({ MediaType.APPLICATION_JSON })
 	@Produces({ MediaType.TEXT_PLAIN })
 	public Response updatePassword(User user) {
@@ -184,7 +184,7 @@ public class UserService {
 	 *         format
 	 */
 	@DELETE
-	@Path("id")
+	@Path("/user/id")
 	@Consumes({ MediaType.APPLICATION_JSON })
 	@Produces({ MediaType.TEXT_PLAIN })
 	public Response deleteUserByid(@PathParam("id") ObjectId id) {

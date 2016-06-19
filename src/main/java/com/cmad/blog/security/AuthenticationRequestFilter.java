@@ -24,8 +24,8 @@ public class AuthenticationRequestFilter implements ContainerRequestFilter {
 		final SecurityContext securityContext = requestContext.getSecurityContext();
 		// Get the request url path, if it is login or signup request, ignore
 		String path = requestContext.getUriInfo().getPath();
-		if (path.equals("/user/login") || path.equals("/user/register") || path.equals("/user/testRest")
-				|| path.equals("/user/testRest/user") || path.equals("/user/logout") || path.equals("/user/testRest/token")) {
+		if (path.equals("/1/login") || path.equals("/1/user") || path.equals("/user/testRest")
+				|| path.equals("/user/testRest/user") || path.equals("/1/logout") || path.equals("/user/testRest/token")) {
 			return;
 		}
 		// Get the token from the request header

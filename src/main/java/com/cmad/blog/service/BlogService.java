@@ -21,19 +21,14 @@ import com.cmad.blog.dal.UserDao;
 import com.cmad.blog.entities.Post;
 import com.cmad.blog.entities.User;
 
-@Path("/blog")
+@Path("/1/blog")
 public class BlogService {
 
 	public @Inject UserDao UserDao;
 
 	public @Inject PostDao postDao;
 
-	@GET
-	@Path("/test")
-	public Response testJUnit(){
-		System.out.println("BlogService.testJUnit().......");
-		return Response.status(200).entity("Blog posted successfully").build();
-	}
+	
 	
 	/**
 	 * User is sending the Blog post content.
@@ -44,9 +39,7 @@ public class BlogService {
 	@Consumes({ MediaType.APPLICATION_FORM_URLENCODED })
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response addPost(@FormParam("title") String title, @FormParam("content") String body, @FormParam("synopsis") String synopsis, @Context SecurityContext sc) {
-		System.out.println("BlogService.addPost()........ synopsis  "+synopsis);
 		User user = ((User)sc.getUserPrincipal());
-		System.out.println("  user  "+user);
 		if(user != null){
 			Post post = new Post(title, synopsis, body, user.getFirstName());
 			postDao.createPost(post);
@@ -90,7 +83,7 @@ public class BlogService {
 	 * @return Response with status code and message in json format
 	 */
 	@GET
-	@Path("/search/{searchString}")
+	@Path("/title/{searchString}")
 	@Consumes({ MediaType.APPLICATION_JSON })
 	@Produces({ MediaType.APPLICATION_JSON})
 	public Response getPosts(@PathParam("searchString") String searchString, @Context SecurityContext sc) {
@@ -110,7 +103,7 @@ public class BlogService {
 	}
 
 	@GET
-	@Path("/{header}")
+	@Path("/synopsis/{header}")
 	@Consumes({ MediaType.APPLICATION_JSON })
 	@Produces({ MediaType.APPLICATION_JSON })
 	public Response getPost(@PathParam("header") String header, @Context SecurityContext sc){
