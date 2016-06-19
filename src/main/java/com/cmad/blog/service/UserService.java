@@ -47,7 +47,7 @@ public class UserService {
 	 * @return Response with status code and message in json format
 	 */
 	@POST
-	//@Path("/register")
+	@Path("/register")
 	@Consumes({ MediaType.APPLICATION_FORM_URLENCODED })
 	@Produces({ MediaType.TEXT_HTML })
 	public Response signUp(@FormParam("firstName") String firstName,@FormParam("lastName") String lastName,@FormParam("email") String email,

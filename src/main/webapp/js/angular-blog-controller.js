@@ -71,7 +71,7 @@
             'password': $scope.newuser.password
 		});
 		$http({
-			"url" : reqUrl+'user',
+			"url" : reqUrl+'user/register',
 			"headers": {'Content-Type': 'application/x-www-form-urlencoded'},
 			"method" : 'POST',
 			"data" : postData,
