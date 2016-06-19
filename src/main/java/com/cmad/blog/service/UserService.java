@@ -52,6 +52,8 @@ public class UserService {
 	@Produces({ MediaType.TEXT_HTML })
 	public Response signUp(@FormParam("firstName") String firstName,@FormParam("lastName") String lastName,@FormParam("email") String email,
 			@FormParam("password") String password) {
+		User userGot = getUserByEmail(email);
+		if(userGot == null){
 		User user = new User(firstName,lastName,email);
 		resetPassword(user, password);
 		userDao.saveUser(user);
@@ -62,6 +64,9 @@ public class UserService {
 		// Setting the token in user also.
 		user.setToken(token);
 		return Response.status(200).entity("{\"token\":\"" + token.getToken() + "\"}").build();
+		}else{
+			return Response.status(400).entity("User id present").build();
+		}
 	}
 
 	
